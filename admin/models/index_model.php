@@ -10,8 +10,6 @@ class Index_Model extends Model {
 	public function run()
 	{
 		$username=$_REQUEST['username'];
-		//$email=$_POST['email'];
-		//fe01ce2a7fbac8fafaed7c982a04e229(demo) old password
 		$password=MD5($_REQUEST['password']);
 		
 		$res= $this->db->select("SELECT * FROM `admin` WHERE username = '".$username."' AND password = '".$password."' AND is_active = 1 ");

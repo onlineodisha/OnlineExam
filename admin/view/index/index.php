@@ -6,9 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>Admin Login </title>
-
     <!-- Bootstrap -->
     <link href="<?php echo URL;?>public/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -17,7 +15,6 @@
     <link href="<?php echo URL;?>public/nprogress/nprogress.css" rel="stylesheet">
     <!-- Animate.css -->
     <link href="<?php echo URL;?>public/animate.css/animate.min.css" rel="stylesheet">
-
     <!-- Custom Theme Style -->
     <link href="<?php echo URL;?>public/build/css/custom.min.css" rel="stylesheet">
   </head>
@@ -26,7 +23,6 @@
     <div>
       <a class="hiddenanchor" id="signup"></a>
       <a class="hiddenanchor" id="signin"></a>
-
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
