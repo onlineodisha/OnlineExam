@@ -57,7 +57,7 @@
                 <ul class="nav side-menu">
                 <li><a><i class="fa fa-table"></i> Student <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#">Student Enrollment</a></li>
+                      <li><a href="<?php echo URL; ?>student">Student Enrollment</a></li>
                       <li><a href="#">Set Assign</a></li>
                     </ul>
                   </li>

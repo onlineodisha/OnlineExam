@@ -9,13 +9,13 @@ define('DB_PASS', '');
 if($_SERVER['HTTP_HOST']!="http://localhost"){
  	if(isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], 'admin') == true)
  	{
- 		define('URL', 'http://localhost/onlineExam/admin/'); 
+ 		define('URL', 'http://localhost/OnlineExam/admin/'); 
 	 	define('LIBS', 'libs/');	
  	}
 	else
 	{
 		
-		define('URL', 'http://localhost/onlineExam'); 
+		define('URL', 'http://localhost/OnlineExam'); 
  		define('LIBS', 'libs/');	
 	}
  }

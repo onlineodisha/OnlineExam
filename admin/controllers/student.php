@@ -10,7 +10,6 @@
 
 	function index(){
 		
-		//$this->view->header_menus = $this->model->getHeaderMenus();
 		$this->view->render('student/enrollment');
 		}
 
