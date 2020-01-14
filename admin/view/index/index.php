@@ -26,7 +26,7 @@
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
-            <form role="form" action="<?php echo URL;?>index/run">
+            <form role="form" action="<?php echo URL;?>indexPage/run">
               <h1>Admin Login</h1>
               <div>
                 <input type="text" class="form-control" placeholder="Username" name="username" id="username" required="" />

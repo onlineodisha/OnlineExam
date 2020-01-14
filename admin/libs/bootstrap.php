@@ -9,9 +9,9 @@ class Bootstrap {
 				                              	 
 		if (empty($url[0])) 
 		{
-		require 'controllers/index.php';
-		$controller = new Index();
-		$controller->loadModel('index');
+		require 'controllers/indexPage.php';
+		$controller = new IndexPage();
+		$controller->loadModel('indexPage');
 		$controller->index();
 		return false;
 		}
