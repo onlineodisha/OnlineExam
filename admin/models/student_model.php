@@ -7,6 +7,9 @@ class Student_Model extends Model {
 		
 	}
 
-	
+	function insertStudentEnrollment($data)
+	{
+		return $this->db->insert('student_details', $data);
+	}
 
 }

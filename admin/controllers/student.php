@@ -16,7 +16,7 @@
 	function createStudentEnrollment()
 	{
 		$name				=	isset($_REQUEST['name'])?$_REQUEST['name']:'';
-		$fatherName			=	isset($_REQUEST['fname'])?$_REQUEST['fname']:'';
+		$fatherName			=	isset($_REQUEST['fName'])?$_REQUEST['fName']:'';
 		$username			=	isset($_REQUEST['username'])?$_REQUEST['username']:'';
 		$password			=	isset($_REQUEST['password'])?$_REQUEST['password']:'';
 		$address			=	isset($_REQUEST['address'])?$_REQUEST['address']:'';
@@ -29,7 +29,12 @@
 		$date				=	date('Y-m-d h:i:s');
 
 		$studentEnrollmentData	=	array('name' => $name, 'username' => $username, 'password' => $password, 'father_name' => $fatherName, 'address' => $address, 'gender' => $gender, 'dob' => $dob, 'mobile_no' => $mobileNo, 'email' => $email, 'id_proof_no' => $idProofNo, 'highest_degree' => $highestDegree,'created_date' => $date);
-		echo "<pre>"; print_r($studentEnrollmentData);
-				//$inserBannerData	=	$this->model->insertBanner($bannerData);
+		
+		$insertStudentData	=	$this->model->insertStudentEnrollment($studentEnrollmentData);
+		if($insertStudentData)
+		{
+
+			echo json_encode($insertStudentData); 
+		}
 	}
 }

@@ -1,8 +1,25 @@
 <div class="right_col" role="main">
     <div class="row" style="display: inline-block;">
         <div class=" top_tiles" style="margin: 10px 0;">
-            <div class="col-md-12 col-sm-12 tile">
-                <div class="x_panel">
+          <div class="col-md-12 col-sm-12 tile" id="studentEnrollmentForm">
+            
+      <!-- Table -->
+            <table class="table-bordered table">
+                <tr>
+                  <th>S.N.</th>
+                  <th>Name</th>
+                  <th>UserName</th>
+                  <th>Password</th>
+                  <th>Mobile No</th>
+                  <th>Email</th>
+                  <th>Qualification</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+          </table>
+     </div>
+            <div class="col-md-12 col-sm-12 tile" id="studentEnrollment">
+                <div class="x_panel" >
                   <div class="x_title">
                     <h2>Student Enrollment Form <small>(all fields are mandetory)</small></h2>
                     <div class="clearfix"></div>
@@ -89,7 +106,8 @@
                         <div class="col-md-9 col-sm-9  offset-md-3">
                           <button type="button" class="btn btn-primary">Cancel</button>
                           <button type="reset" class="btn btn-primary">Reset</button>
-                          <button type="button" class="btn btn-success" onclick="submitStdDetails()">Submit</button>
+                          <button type="button" class="btn btn-success" 
+                          onclick="submitStdDetails()">Submit</button>
                         </div>
                       </div>
                     </form>
@@ -106,7 +124,6 @@
 /**************Student Enrollment ****************/
 function submitStdDetails()
 {		
-		console.log(43535);
 		var studentFrmData	=	$('#frmStudentEnrollment').serialize();
 
 		/*var bannerAttachment 	= 	$('#bannerImage').prop('files')[0];
@@ -116,20 +133,39 @@ function submitStdDetails()
 		var xhr	=	new XMLHttpRequest();
 		method = 'post',
 		url = ''+serverUrl+'student/createStudentEnrollment?'+studentFrmData;
+
 		xhr.onreadystatechange = function () {
 				if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
 						var returnedData= JSON.parse(xhr.responseText);
 						console.log('Success');
 						//document.getElementById("bannerCaption").value 	= "";
-
+            studentListing();
 					}
 
 				};
 				
 		xhr.open(method, url, studentFrmData);
 		xhr.send();
-		
-	}
+}
+
+function studentListing(data)
+{
+    for(var i =0; i< data.length; i++)
+
+    {       var studentData = '<tr>';
+            studentData += '<td>'+i+1+'</td>';
+            studentData += '<td>'+data[i]['name']+'</td>';
+            studentData += '<td>'+data[i]['username']+'</td>';
+            studentData += '<td>'+data[i]['password']+'</td>';
+            studentData += '<td>'+data[i]['mobile_no']+'</td>';
+            studentData += '<td>'+data[i]['email']+'</td>';
+            studentData += '<td>'+data[i]['highest_degree']+'</td>';
+            studentData += '<td>'+data[i]['Status']+'</td>';
+            studentData += '<td>'+'</td>';
+
+    }
+
+
 }
 </script>
 
