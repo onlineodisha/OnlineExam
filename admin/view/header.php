@@ -118,7 +118,7 @@
               <a data-toggle="tooltip" data-placement="top" title="Lock">
                 <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
               </a>
-              <a data-toggle="tooltip" data-placement="top" title="Logout" href="<?php echo URL; ?>index/logout"">
+              <a data-toggle="tooltip" data-placement="top" title="Logout" href="<?php echo URL; ?>indexPage/logout"">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
               </a>
             </div>
@@ -140,7 +140,7 @@
                       </a>
                       <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item"  href="javascript:;">Help</a>
-                        <a class="dropdown-item"  href="<?php echo URL; ?>index/logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+                        <a class="dropdown-item"  href="<?php echo URL; ?>indexPage/logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                       </div>
                   </li>
                 </ul>
