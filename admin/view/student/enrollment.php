@@ -1,10 +1,8 @@
 <div class="right_col" role="main">
     <div class="row" style="display: inline-block;">
         <div class=" top_tiles" style="margin: 10px 0;">
-          <div class="col-md-12 col-sm-12 tile" id="studentEnrollmentForm">
-            
-      <!-- Table -->
-            <table class="table-bordered table">
+          <div class="col-md-12 col-sm-12 tile" id="studentEnrollmentListing" >
+            <table class="table-bordered table" id="studentListingTable">
                 <tr>
                   <th>S.N.</th>
                   <th>Name</th>
@@ -17,8 +15,8 @@
                   <th>Action</th>
                 </tr>
           </table>
-     </div>
-            <div class="col-md-12 col-sm-12 tile" id="studentEnrollment">
+        </div>
+            <div class="col-md-12 col-sm-12 tile d-none" id="studentEnrollmentForm" >
                 <div class="x_panel" >
                   <div class="x_title">
                     <h2>Student Enrollment Form <small>(all fields are mandetory)</small></h2>
@@ -120,6 +118,28 @@
 
 <script>
 	var serverUrl 	= 	"<?php echo URL; ?>";
+ 
+  $(document).ready(function(){
+    var xhr = new XMLHttpRequest();
+    method = 'post',
+    url = ''+serverUrl+'student/showAllStudentDetails?';
+
+    xhr.onreadystatechange = function () 
+    {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
+        {
+            var returnedData= JSON.parse(xhr.responseText);
+            if(returnedData != '')
+            {
+              studentListing(returnedData);
+              
+            }    
+        }
+    }; 
+    xhr.open(method, url, true);
+    xhr.send();
+
+  });
 
 /**************Student Enrollment ****************/
 function submitStdDetails()
@@ -137,11 +157,11 @@ function submitStdDetails()
 		xhr.onreadystatechange = function () {
 				if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
 						var returnedData= JSON.parse(xhr.responseText);
-						console.log('Success');
+		
 						//document.getElementById("bannerCaption").value 	= "";
-            studentListing();
+            studentListing(returnedData);
+            
 					}
-
 				};
 				
 		xhr.open(method, url, studentFrmData);
@@ -150,9 +170,14 @@ function submitStdDetails()
 
 function studentListing(data)
 {
-    for(var i =0; i< data.length; i++)
+    var studentData = '';
+    if(data != '')
+    {
 
-    {       var studentData = '<tr>';
+      for(var i =0; i< data.length; i++)
+
+      {     
+            studentData = '<tr>';
             studentData += '<td>'+i+1+'</td>';
             studentData += '<td>'+data[i]['name']+'</td>';
             studentData += '<td>'+data[i]['username']+'</td>';
@@ -163,9 +188,11 @@ function studentListing(data)
             studentData += '<td>'+data[i]['Status']+'</td>';
             studentData += '<td>'+'</td>';
 
+      }
+      $('#studentEnrollmentForm').removeClass('d-none');
+      $('#studentEnrollmentListing').addClass('d-none');       
+      $('#studentListingTable').append(studentData);
     }
-
-
 }
 </script>
 

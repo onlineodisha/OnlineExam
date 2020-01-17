@@ -12,4 +12,9 @@ class Student_Model extends Model {
 		return $this->db->insert('student_details', $data);
 	}
 
+	function getAllStudentDatails()
+	{
+		return $this->db->select("SELECT * FROM student_details");
+	}
+
 }

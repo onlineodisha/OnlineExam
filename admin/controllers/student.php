@@ -31,10 +31,14 @@
 		$studentEnrollmentData	=	array('name' => $name, 'username' => $username, 'password' => $password, 'father_name' => $fatherName, 'address' => $address, 'gender' => $gender, 'dob' => $dob, 'mobile_no' => $mobileNo, 'email' => $email, 'id_proof_no' => $idProofNo, 'highest_degree' => $highestDegree,'created_date' => $date);
 		
 		$insertStudentData	=	$this->model->insertStudentEnrollment($studentEnrollmentData);
-		if($insertStudentData)
-		{
+	
+		$allStudentData = $this->model->$getAllStudentDatails();
+		echo json_encode($allStudentData); 
+	}
 
-			echo json_encode($insertStudentData); 
-		}
+	function showAllStudentDetails()
+	{
+		$allStudentData = $this->model->$getAllStudentDatails();
+		echo json_encode($allStudentData); 
 	}
 }

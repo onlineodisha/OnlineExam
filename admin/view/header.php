@@ -22,7 +22,8 @@
     <link href="<?php echo URL;?>public/css/daterangepicker.css" rel="stylesheet">
     
     <!-- Custom Theme Style -->
-    <link href="<?php echo URL;?>public/css/custom.min.css" rel="stylesheet">
+    <link href="<?php echo URL;?>public/css/custom.min.css" rel="stylesheet"><script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    
   </head>
 
   <body class="nav-md">

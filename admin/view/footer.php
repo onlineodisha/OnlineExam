@@ -47,6 +47,7 @@
 
     <!-- Custom Theme Scripts -->
     <script src="<?php echo URL;?>public/jquery/custom.min.js"></script>
-
+    
+        <script type="text/javascript" src="<?php echo URL;?>public/jquery/javascript.js"></script>
   </body>
 </html>
