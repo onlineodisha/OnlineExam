@@ -32,13 +32,14 @@
 		
 		$insertStudentData	=	$this->model->insertStudentEnrollment($studentEnrollmentData);
 	
-		$allStudentData = $this->model->$getAllStudentDatails();
+		$allStudentData = $this->model->getAllStudentDetails();
 		echo json_encode($allStudentData); 
 	}
 
 	function showAllStudentDetails()
 	{
-		$allStudentData = $this->model->$getAllStudentDatails();
+		
+		$allStudentData = $this->model->getAllStudentDetails();
 		echo json_encode($allStudentData); 
 	}
 }
