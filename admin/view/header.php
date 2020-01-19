@@ -64,11 +64,7 @@
                   </li>
                   <li><a><i class="fa fa-cog"></i> Settings <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#">Set Entry</a></li>
-                      <li><a href="#">Subject Entry</a></li>
-                      <li><a href="#">Time Entry</a></li>
-                      <li><a href="#">Mark Entry</a></li>
-                      
+                      <li><a href="<?php echo URL; ?>examSetup">Exam Type Setup</a></li> 
                     </ul>
                   </li>
                   <li><a><i class="fa fa-edit"></i> Question <span class="fa fa-chevron-down"></span></a>

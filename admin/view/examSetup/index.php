@@ -1,105 +1,73 @@
 <div class="right_col" role="main">
     <div class="row" style="display: inline-block;">
     <div>
-      <input class="btn btn-primary" style="margin-left: 10px; padding: 5px;" type="button" id="addStudentBtn" value="Add Student" onclick="addStudent()"></input>
+      <input class="btn btn-primary" style="margin-left: 10px; padding: 5px;" type="button" id="addExamTypeBtn" value="Add Exam Type" onclick="addButton()"></input>
       <input class="btn btn-primary" style="margin-left: 10px; padding: 5px;" type="button" id="backButton" value="Back" onclick="backButton()"></input>
     </div>
         <div class=" top_tiles" style="margin: 10px 0;">
-          <div class="col-md-12 col-sm-12 tile" id="studentEnrollmentListing" >
-            <table class="table-bordered table" id="studentListingTable">
+          <div class="col-md-12 col-sm-12 tile" id="examTypeListing" >
+            <table class="table-bordered table" id="examTypeListingTable">
                 <tr>
                   <th>S.N.</th>
-                  <th>Name</th>
-                  <th>UserName</th>
-                  <th>Password</th>
-                  <th>Mobile No</th>
-                  <th>Email</th>
-                  <th>ID Proof No</th>
-                  <th>Qualification</th>
-                  <th>Status</th>
+                  <th>Exam Name</th>
+                  <th>Exam Time</th>
+                  <th>Subject Name</th>
+                  <th>No Of Question</th>
+                  <th>Mark</th>
+                  <th>Minus Mark</th>
                   <th>Action</th>
                 </tr>
           </table>
         </div>
-            <div class="col-md-12 col-sm-12 tile d-none" id="studentEnrollmentForm" >
+            <div class="col-md-12 col-sm-12 tile d-none" id="examTypeForm" >
                 <div class="x_panel" >
                   <div class="x_title">
-                    <h2>Student Enrollment Form <small>(all fields are mandetory)</small></h2>
+                    <h2>Exam Setup Form <small>(All Fields are Mandatory)</small></h2>
                     <div class="clearfix"></div>
                   </div>
                 <div class="x_content">
                     <br />
-                    <form class="form-horizontal form-label-left" id="frmStudentEnrollment">
+                    <form class="form-horizontal form-label-left" id="frmExamType">
                     <div class="form-group row ">
-                        <label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> Name : </strong></label>
+                        <label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> Exam Name : </strong></label>
                         <div class="col-md-9 col-sm-9 ">
-                          <input type="text" class="form-control" name="name" id="name"placeholder="Santosh Kumar">
+                          <input type="text" class="form-control" name="examName" id="examName"placeholder=""><label>(Exam Name : Railway, SSC , IBPS)</label>
                         </div>
                     </div>
                     <div class="form-group row ">
-                        <label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> Father Name : </strong></label>
+                        <label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> Exam Time : </strong></label>
                         <div class="col-md-9 col-sm-9 ">
-                          <input type="text" class="form-control" name="fName" id="fName" placeholder="Santosh Kumar">
+                          <input type="text" class="form-control" name="examTime" id="examTime" placeholder=""><label>(Input Time Minute : 90 , 120)</label>
                         </div>
                     </div>
                     <div class="form-group row ">
-                        <label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> UserName :</strong> </label>
+                        <label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> Subject Name :</strong> </label>
                         <div class="col-md-9 col-sm-9 ">
-                          <input type="text" class="form-control" name="username" id="username"placeholder="Enter Username">
+                         <!--  <input type="text" class="form-control" name="subjectName" id="subjectName" placeholder=""> -->
+                          <select id="subjectName" name="subjectName" class="form-control" required>
+                            <option value="">Choose..</option>
+                            <option onselect="addNewSubject()">Add New Subject</option>
+                          </select>
+                          <label>(Select Subject :- Math / English / Reasoning / GK)</label>
                         </div>
                     </div>
                     <div class="form-group row">
-                    	<label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> Password : </strong></label>
+                    	<label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> No Of Question :</strong></label>
                     	<div class="col-md-9 col-sm-9 ">
-                      		<input type="password" name="password" id="password"class="form-control" value="passwordonetwo">
+                      		<input type="text" name="noOfQuestion" id="noOfQuestion"class="form-control" ><label>(No of Question Per Subject)</label>
                     	</div>
                   	</div>
                     <div class="form-group row">
-                        <label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> Address : </strong>
+                        <label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> Mark for Correct Ans : </strong>
                         </label>
                         <div class="col-md-9 col-sm-9 ">
-                          <textarea class="form-control" rows="3" name="address" id="address"placeholder="Enter Your Address"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                     <label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> Gender : </strong></label>
-                    <div class="radio">
-                      <label>
-                        <input type="radio" checked="" value="Male" id="male" name="gender" style="margin-left: 10px; margin-top: 10px;"> Male    
-                      </label>
-                       <label>
-                        <input type="radio" value="Female" id="female" name="gender"> Female
-                      </label>
-                    </div>
-                    </div>
-                    <div class="form-group row ">
-                        <label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> Date of Birth : </strong></label>
-                        <div class="col-md-9 col-sm-9 ">
-                          <input type="date" class="form-control" name="dob" id="dob"placeholder="">
+                          <input type="text" class="form-control" name="addMark" id="addMark"placeholder=""><label>(Mark for Correct Answer . i.e 2 or 4)</label>
                         </div>
                     </div>
                     <div class="form-group row ">
-                        <label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> Mobile No : </strong></label>
+                        <label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> Mark for Wrong Ans : </strong></label>
                         <div class="col-md-9 col-sm-9 ">
-                          <input type="text" class="form-control" name="mobileNo" id="mobileNo" placeholder="Enter your Mobile Number">
-                        </div>
-                    </div>
-                    <div class="form-group row ">
-                        <label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> Email ID : </strong></label>
-                        <div class="col-md-9 col-sm-9 ">
-                          <input type="text" class="form-control" name="email" id="email"placeholder="Enter your Mail ID">
-                        </div>
-                    </div>
-                    <div class="form-group row ">
-                        <label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> AADHAR / PAN No : </strong></label>
-                        <div class="col-md-9 col-sm-9 ">
-                          <input type="text" class="form-control" name="idNo" id="idNo"placeholder="AADHAR / PAN Card No">
-                        </div>
-                    </div>
-                    <div class="form-group row ">
-                        <label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> Highest Degree : </strong></label>
-                        <div class="col-md-9 col-sm-9 ">
-                          <input type="text" class="form-control" name="highestDegree" id="highestDegree"placeholder="Enter Highest Qualification">
+                          <input type="text" class="form-control" name="minusMark" id="minusMark"placeholder=""><label>(Mark for Wrong Answer. I.e 0.5 / -1 )</label>
                         </div>
                     </div>
                     <div class="ln_solid"></div>
@@ -107,7 +75,7 @@
                         <div class="col-md-9 col-sm-9  offset-md-3">
                           <input type="button" class="btn btn-primary" value="Reset"></input>
                           <input type="button" class="btn btn-success" id="submitBtn"
-                          onclick="submitStdDetails()" value="Submit"></input>
+                          onclick="submitExamDetails()" value="Submit"></input>
                         </div>
                       </div>
                     </form>
@@ -146,46 +114,52 @@
 
   });
 /******Add Student & Back  Button******/
-function addStudent()
+function addButton()
 {
-      $('#studentEnrollmentForm').removeClass('d-none');
-      $('#studentEnrollmentListing').addClass('d-none');
+      $('#examTypeForm').removeClass('d-none');
+      $('#examTypeListing').addClass('d-none');
       $('#backButton').removeClass('d-none');
-      $('#addStudentBtn').addClass('d-none');
+      $('#addExamTypeBtn').addClass('d-none');
 }
 
 function backButton()
 {
-      $('#studentEnrollmentForm').addClass('d-none');
-      $('#studentEnrollmentListing').removeClass('d-none');
+      $('#examTypeForm').addClass('d-none');
+      $('#examTypeListing').removeClass('d-none');
       $('#backButton').addClass('d-none');
-      $('#addStudentBtn').removeClass('d-none');
+      $('#addExamTypeBtn').removeClass('d-none');
+}
+/*********Add New Subject**********/
+function addNewSubject()
+{
+  console.log(67566);
 }
 /**************Student Enrollment ****************/
-function submitStdDetails()
+function submitExamDetails()
 {		
-		var studentFrmData	=	$('#frmStudentEnrollment').serialize();
-    var submitBtnValue  = $('#submitBtn').val();
 
+		var examTypeFrmData	=	$('#frmExamType').serialize();
+    var submitBtnValue  = $('#submitBtn').val();
+    
 		/*var bannerAttachment 	= 	$('#bannerImage').prop('files')[0];
 		var formdata  	= 	new FormData();
     	formdata.append("attachment", bannerAttachment);*/
-    if(submitBtnValue == 'submit')
+    if(submitBtnValue == 'Submit')
     {
         var xhr = new XMLHttpRequest();
         method = 'post',
-        url = ''+serverUrl+'student/createStudentEnrollment?'+studentFrmData;
+        url = ''+serverUrl+'examSetup/createExamSetup?'+examTypeFrmData;
         xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
                 var returnedData= JSON.parse(xhr.responseText);
         
                 //document.getElementById("bannerCaption").value  = "";
-                studentListing(returnedData);
+                //studentListing(returnedData);
                 
               }
             };
             
-        xhr.open(method, url, studentFrmData);
+        xhr.open(method, url, examTypeFrmData);
         xhr.send();
     }
     else
