@@ -20,6 +20,9 @@
     <link href="<?php echo URL;?>public/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
     <link href="<?php echo URL;?>public/css/daterangepicker.css" rel="stylesheet">
+    <!-- common css -->
+    <link href="<?php echo URL;?>public/css/common.css" rel="stylesheet">
+
     
     <!-- Custom Theme Style -->
     <link href="<?php echo URL;?>public/css/custom.min.css" rel="stylesheet"><script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
@@ -73,7 +76,7 @@
                   </li>
                   <li><a><i class="fa fa-edit"></i> Question <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#">Question Entry</a></li>
+                      <li><a href="<?php echo URL; ?>question">Question Entry</a></li>
                       <li><a href="#">Advanced Components</a></li>
                       <li><a href="#">Form Validation</a></li>
                       <li><a href="#">Form Wizard</a></li>
