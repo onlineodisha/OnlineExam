@@ -215,6 +215,7 @@ function editStudentDtls(id)
             $('#backButton').removeClass('d-none');
             $('#addStudentBtn').addClass('d-none');
             document.getElementById("name").innerHTML = returnedData[0]['name'];
+            $('#name').val(returnedData[0]['name']);
           }   
       }
     };  
