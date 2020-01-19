@@ -42,4 +42,16 @@
 		$allStudentData = $this->model->getAllStudentDetails();
 		echo json_encode($allStudentData); 
 	}
+
+	function getStudentDetailByID()
+	{
+		$id 	=	isset($_GET['id'])?$_GET['id']:'';
+
+			if($id != '')
+			{
+			$studentDetails	=	$this->model->getStudentById($id);
+            echo json_encode($studentDetails);
+			}
+
+	}
 }

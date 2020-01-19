@@ -16,5 +16,9 @@ class Student_Model extends Model {
 	{
 		return $this->db->select("SELECT * FROM student_details");
 	}
+	function getStudentById($id)
+	{
+		return $this->db->select("SELECT * FROM student_details WHERE id = ".$id);
+	}
 
 }

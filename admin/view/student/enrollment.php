@@ -108,8 +108,8 @@
                         <div class="col-md-9 col-sm-9  offset-md-3">
                           <button type="button" class="btn btn-primary">Cancel</button>
                           <button type="reset" class="btn btn-primary">Reset</button>
-                          <button type="button" class="btn btn-success" 
-                          onclick="submitStdDetails()">Submit</button>
+                          <button type="button" class="btn btn-success" id="submitBtn"
+                          onclick="submitStdDetails()" value="submit">Submit</button>
                         </div>
                       </div>
                     </form>
@@ -167,33 +167,60 @@ function backButton()
 function submitStdDetails()
 {		
 		var studentFrmData	=	$('#frmStudentEnrollment').serialize();
+    var submitBtnValue  = $('#submitBtn').val();
 
 		/*var bannerAttachment 	= 	$('#bannerImage').prop('files')[0];
 		var formdata  	= 	new FormData();
     	formdata.append("attachment", bannerAttachment);*/
-
-		var xhr	=	new XMLHttpRequest();
-		method = 'post',
-		url = ''+serverUrl+'student/createStudentEnrollment?'+studentFrmData;
-
-		xhr.onreadystatechange = function () {
-				if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
-						var returnedData= JSON.parse(xhr.responseText);
-		
-						//document.getElementById("bannerCaption").value 	= "";
-            studentListing(returnedData);
+    if(submitBtnValue == 'submit')
+    {
+        var xhr = new XMLHttpRequest();
+        method = 'post',
+        url = ''+serverUrl+'student/createStudentEnrollment?'+studentFrmData;
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+                var returnedData= JSON.parse(xhr.responseText);
+        
+                //document.getElementById("bannerCaption").value  = "";
+                studentListing(returnedData);
+                
+              }
+            };
             
-					}
-				};
-				
-		xhr.open(method, url, studentFrmData);
-		xhr.send();
+        xhr.open(method, url, studentFrmData);
+        xhr.send();
+    }
+    else
+    {
+
+    }
+		
 }
 
 /******Edit Student Details*******/
-function editStudentDtls()
+function editStudentDtls(id)
 {
-  
+    var xhr = new XMLHttpRequest();
+    method = 'post',
+    url = ''+serverUrl+'student/getStudentDetailByID?&id='+id;
+   
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
+      {
+          var returnedData= JSON.parse(xhr.responseText);
+          if(returnedData != '')
+          {
+            $('#studentEnrollmentForm').removeClass('d-none');
+            $('#studentEnrollmentListing').addClass('d-none');
+            $('#backButton').removeClass('d-none');
+            $('#addStudentBtn').addClass('d-none');
+            document.getElementById("name").innerHTML = returnedData[0]['name'];
+          }   
+      }
+    };  
+    xhr.open(method, url, true);
+    xhr.send();
+
 }
 /********Student Listing********/
 function studentListing(data)
