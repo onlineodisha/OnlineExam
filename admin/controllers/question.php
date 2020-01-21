@@ -12,4 +12,8 @@
 	{
 		$this->view->render('question/index');
 	}
+	function getExamData()
+	{
+		echo json_encode($this->model->getExamData());
+	}
 }

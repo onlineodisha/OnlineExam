@@ -26,6 +26,9 @@
     
     <!-- Custom Theme Style -->
     <link href="<?php echo URL;?>public/css/custom.min.css" rel="stylesheet"><script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+
+    <!-- Include CKEditor From CDN -->
+    <script src="<?php echo URL;?>public/ckeditor/ckeditor.js"></script>
     
   </head>
 

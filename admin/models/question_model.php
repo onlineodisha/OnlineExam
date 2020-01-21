@@ -7,6 +7,9 @@ class Question_Model extends Model {
 		
 	}
 
-	
+	function getExamData()
+	{
+		return $this->db->select("SELECT * FROM exam_type");
+	}
 
 }

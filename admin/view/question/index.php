@@ -55,3 +55,29 @@
     </div>
 
 </div>
+<script type="text/javascript">
+	var serverUrl 	= 	"<?php echo URL; ?>";
+	$(document).ready(function(){
+		getExamData();
+	});
+	function getExamData()
+	{
+		var xhr = new XMLHttpRequest();
+	    method = 'post',
+	    url = ''+serverUrl+'question/getExamData';
+	    xhr.onreadystatechange = function () 
+	    {
+	        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
+	        {
+	            var returnedData= JSON.parse(xhr.responseText);
+	            console.log(returnedData);	
+	            if(returnedData != '')
+	            {
+						              
+	            }  
+	        }
+	    }; 
+	    xhr.open(method, url, true);
+	    xhr.send();
+	}
+</script>
