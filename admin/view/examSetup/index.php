@@ -6,18 +6,7 @@
     </div>
         <div class=" top_tiles" style="margin: 10px 0;">
           <div class="col-md-12 col-sm-12 tile" id="examTypeListing" >
-            <table class="table-bordered table" id="examTypeListingTable">
-                <tr>
-                  <th>S.N.</th>
-                  <th>Exam Name</th>
-                  <th>Exam Time</th>
-                  <th>Subject Name</th>
-                  <th>No Of Question</th>
-                  <th>Mark</th>
-                  <th>Minus Mark</th>
-                  <th>Action</th>
-                </tr>
-          </table>
+            
         </div>
             <div class="col-md-12 col-sm-12 tile d-none" id="examTypeForm" >
                 <div class="x_panel" >
@@ -31,7 +20,7 @@
                     <div class="form-group row ">
                         <label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> Exam Name : </strong></label>
                         <div class="col-md-9 col-sm-9 ">
-                          <input type="text" class="form-control" name="examName" id="examName"placeholder=""><label>(Exam Name : Railway, SSC , IBPS)</label>
+                          <input type="text" class="form-control" list="browsers" name="examName" id="examName" placeholder=""><label>(Exam Name : Railway, SSC , IBPS)</label>
                         </div>
                     </div>
                     <div class="form-group row ">
@@ -43,19 +32,22 @@
                     <div class="form-group row ">
                         <label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> Subject Name :</strong> </label>
                         <div class="col-md-9 col-sm-9 ">
-                         <!--  <input type="text" class="form-control" name="subjectName" id="subjectName" placeholder=""> -->
-                          <select id="subjectName" name="subjectName" class="form-control" required>
-                            <option value="">Choose..</option>
-                            <option onselect="addNewSubject()">Add New Subject</option>
-                          </select>
-                          <label>(Select Subject :- Math / English / Reasoning / GK)</label>
+                          <select name="subjectName" class="form-control" id="subjectName"></select>
+                          <label id="labelname">(Select Subject Name:- Math / English / Reasoning / GK)</label>
+                        </div>
+                    </div>
+                    <div class="form-group row d-none" id="addSubjectForm"> 
+                        <label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> Enter Name :</strong> </label>
+                        <div class="col-md-9 col-sm-9 " >
+                            <input type="text" class="form-control" name="addSubjectName" id="addSubjectName" placeholder="" > 
+                            <input class="btn btn-primary" type="button" id="addSubject" value="Add" style="margin-top: 5px;float: right;padding: 5px;">
                         </div>
                     </div>
                     <div class="form-group row">
-                    	<label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> No Of Question :</strong></label>
-                    	<div class="col-md-9 col-sm-9 ">
+                    	 <label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> No Of Question :</strong></label>
+                    	 <div class="col-md-9 col-sm-9 ">
                       		<input type="text" name="noOfQuestion" id="noOfQuestion"class="form-control" ><label>(No of Question Per Subject)</label>
-                    	</div>
+                    	 </div>
                   	</div>
                     <div class="form-group row">
                         <label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> Mark for Correct Ans : </strong>
@@ -91,26 +83,62 @@
  
   $(document).ready(function(){
     $('#backButton').addClass('d-none');
+    $('#addSubjectName').addClass('d-none');
+    $('#addSubject').addClass('d-none');
+    $('#labelname').removeClass('d-none');
+    examTypeListing();
+
+    var optionValue = '';
     var xhr = new XMLHttpRequest();
     method = 'post',
-    url = ''+serverUrl+'student/showAllStudentDetails?';
+    url = ''+serverUrl+'examSetup/showAllSubjectName?';
 
     xhr.onreadystatechange = function () 
     {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
         {
-
             var returnedData= JSON.parse(xhr.responseText);
 
             if(returnedData != '')
             {
-              studentListing(returnedData);
-              
+              optionValue = '<option value="">Choose..</option>';            
+               for(var i = 0; i < returnedData.length; i++)
+              {
+                  optionValue  +=  '<option value='+returnedData[i]['subject_name']+'>'+returnedData[i]['subject_name']+'</option>';
+              }
+              $('#subjectName').html(optionValue);
             }    
         }
     }; 
     xhr.open(method, url, true);
     xhr.send();
+
+    /**********Exam Name DropDownlist************/
+    var optionVal = '';
+    var xhr1 = new XMLHttpRequest();
+    method = 'post',
+    url = ''+serverUrl+'examSetup/getAllParentExamTypes?';
+
+    xhr1.onreadystatechange = function () 
+    {
+        if (xhr1.readyState === XMLHttpRequest.DONE && xhr1.status === 200)
+        {
+            var returnedData= JSON.parse(xhr1.responseText);
+            
+            if(returnedData != '')
+            {
+              optionVal = '<datalist id="browsers">';            
+               for(var i = 0; i < returnedData.length; i++)
+              {
+                  optionVal  +=  '<option value='+returnedData[i]['exam_name']+'>';
+              }
+              optionVal += '</datalist>';
+              $('#examName').html(optionVal);
+            }    
+        }
+    }; 
+    xhr1.open(method, url, true);
+    xhr1.send();
 
   });
 /******Add Student & Back  Button******/
@@ -129,44 +157,52 @@ function backButton()
       $('#backButton').addClass('d-none');
       $('#addExamTypeBtn').removeClass('d-none');
 }
-/*********Add New Subject**********/
-function addNewSubject()
-{
-  console.log(67566);
-}
+
+
 /**************Student Enrollment ****************/
 function submitExamDetails()
 {		
 
 		var examTypeFrmData	=	$('#frmExamType').serialize();
     var submitBtnValue  = $('#submitBtn').val();
-    
-		/*var bannerAttachment 	= 	$('#bannerImage').prop('files')[0];
-		var formdata  	= 	new FormData();
-    	formdata.append("attachment", bannerAttachment);*/
-    if(submitBtnValue == 'Submit')
+    var subjectName     = $('#subjectName').val();
+    var examTime        = $('#examTime').val();
+    var examName        = $('#examName').val();
+    var noOfQuestion    = $('#noOfQuestion').val();
+    var addMark         = $('#addMark').val();
+    var minusMark       = $('#minusMark').val();
+  
+    if(subjectName != '' && examName != '' && examTime != '' && noOfQuestion != '' && addMark != '' && minusMark != '')
     {
-        var xhr = new XMLHttpRequest();
-        method = 'post',
-        url = ''+serverUrl+'examSetup/createExamSetup?'+examTypeFrmData;
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
-                var returnedData= JSON.parse(xhr.responseText);
-        
-                //document.getElementById("bannerCaption").value  = "";
-                //studentListing(returnedData);
-                
+        if(submitBtnValue == 'Submit')
+        {
+            var xhr = new XMLHttpRequest();
+            method = 'post',
+            url = ''+serverUrl+'examSetup/createExamSetup?'+examTypeFrmData;
+            xhr.onreadystatechange = function () 
+            {
+              if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
+              {
+                  var returnedData= JSON.parse(xhr.responseText);
+                  if(returnedData != '')
+                  {
+                    examTypeListing()
+                  } 
               }
-            };
-            
-        xhr.open(method, url, examTypeFrmData);
-        xhr.send();
+            };    
+            xhr.open(method, url, examTypeFrmData);
+            xhr.send();
+        }
+        else
+        {
+
+        }
     }
     else
     {
 
     }
-		
+
 }
 
 /******Edit Student Details*******/
@@ -204,43 +240,65 @@ function editStudentDtls(id)
 
 }
 /********Student Listing********/
-function studentListing(data)
+function examTypeListing()
 {
-    var studentData = '';
-    if(data != '')
+    var eData = '';
+    var xhr = new XMLHttpRequest();
+    method = 'post',
+    url = ''+serverUrl+'examSetup/getAllExamType?';
+    xhr.onreadystatechange = function () 
     {
+      if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
+      {
+          var data= JSON.parse(xhr.responseText);
+          if(data != '')
+          {
+              eData ='<table class="table-bordered table" id="examTypeListingTable"><tr>';
+              eData += '<th>S.N.</th>';
+              eData += '<th>Exam Name</th>';
+              eData += '<th>Exam Time</th>';
+              eData += '<th>Subject Name</th>';
+              eData += '<th>No Of Question</th>';
+              eData += '<th>Mark</th>';
+              eData += '<th>Minus Mark</th>';
+              eData += '<th>Action</th></tr>';
 
-      for(var i =0; i< data.length; i++)
+              for(var i =0; i< data.length; i++)
+              {     
+                eData += '<tr>';
+                eData += '<td>'+(i+1)+'</td>';
+                eData += '<td>'+data[i]['exam_name']+'</td>';
+                eData += '<td>'+data[i]['exam_time']+'</td>';
+                eData += '<td>'+data[i]['subject_name']+'</td>';
+                eData += '<td>'+data[i]['no_of_question']+'</td>';
+                eData += '<td>'+data[i]['mark_add']+'</td>';
+                eData += '<td>'+data[i]['mark_minus']+'</td>';
+                /*if(data[i]['is_active'] == 1)
+                {
+                //studentData += '<td>'+'Active'+'</td>';
+                studentData += '<td>'+'<button type="button" class="" id="stdActDeactBtn" onclick="studentActDeact('+data[i]['id']+','+data[i]['is_active']+')" data-toggle="tooltip" title="Deactive" ><i class="fa fa-check-circle text-primary" ></i>&nbsp;&nbsp;</button>'+'</td>';
+                }
+                else
+                {
+                  //studentData += '<td>'+'Inactive'+'</td>';
+                  studentData += '<td>'+'<button type="button" class="" id="stdActDeactBtn" onclick="studentActDeact('+data[i]['id']+','+data[i]['is_active']+')" data-toggle="tooltip" title="Active"><i class="fa fa-ban"></i>&nbsp;&nbsp;</button>'+'</td>';
+                }*/
+                eData += '<td><button type="button" class="" id="editExamType"  onclick="editExamType('+data[i]['id']+')"><i class="fa fa-edit btn-edit"></i>&nbsp;&nbsp;</button><button type="button" class="" id="deleteExamType"  onclick="deleteExamType('+data[i]['id']+')"><i class="fa fa-trash text-danger" style="color:red"></i>&nbsp;&nbsp;</button></td>';
+                eData += '</tr>';
+                
+              }
 
-      {     
-            studentData = '<tr>';
-            studentData += '<td>'+(i+1)+'</td>';
-            studentData += '<td>'+data[i]['name']+'</td>';
-            studentData += '<td>'+data[i]['username']+'</td>';
-            studentData += '<td>'+data[i]['password']+'</td>';
-            studentData += '<td>'+data[i]['mobile_no']+'</td>';
-            studentData += '<td>'+data[i]['email']+'</td>';
-            studentData += '<td>'+data[i]['id_proof_no']+'</td>';
-            studentData += '<td>'+data[i]['highest_degree']+'</td>';
-            if(data[i]['is_active'] == 1)
-            {
-              //studentData += '<td>'+'Active'+'</td>';
-              studentData += '<td>'+'<button type="button" class="" id="stdActDeactBtn" onclick="studentActDeact('+data[i]['id']+','+data[i]['is_active']+')" data-toggle="tooltip" title="Deactive" ><i class="fa fa-check-circle text-primary" ></i>&nbsp;&nbsp;</button>'+'</td>';
-            }
-            else
-            {
-              //studentData += '<td>'+'Inactive'+'</td>';
-              studentData += '<td>'+'<button type="button" class="" id="stdActDeactBtn" onclick="studentActDeact('+data[i]['id']+','+data[i]['is_active']+')" data-toggle="tooltip" title="Active"><i class="fa fa-ban"></i>&nbsp;&nbsp;</button>'+'</td>';
-            }
-            studentData += '<td><button type="button" class="" id="editStudentBtn"  onclick="editStudentDtls('+data[i]['id']+')"><i class="fa fa-edit btn-edit"></i>&nbsp;&nbsp;</button><button type="button" class="" id="DeleteStudentBtn"  onclick="deleteStudentDtls('+data[i]['id']+')"><i class="fa fa-trash text-danger" style="color:red"></i>&nbsp;&nbsp;</button></td>';
-            studentData += '</tr>';
-            $('#studentListingTable').append(studentData);
+              eData += '</table>';
+              $('#examTypeListing').html(eData);
+              $('#examTypeForm').addClass('d-none');
+              $('#examTypeListing').removeClass('d-none');       
+              $('#backButton').addClass('d-none');
+              $('#addExamTypeBtn').removeClass('d-none');       
+          }
       }
-      $('#studentEnrollmentForm').addClass('d-none');
-      $('#studentEnrollmentListing').removeClass('d-none');       
-      $('#backButton').addClass('d-none');       
-      
-    }
+    };
+    xhr.open(method, url, true);
+    xhr.send();
 }
 </script>
 
