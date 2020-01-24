@@ -70,6 +70,14 @@
 		echo json_encode($allExamTypesData); 
 	}
 
+	function getExamTimeByEname()
+	{
+		$examName				=	isset($_REQUEST['examName'])?$_REQUEST['examName']:'';
+		
+		$examTypeDetails = $this->model->getExamTypeByName($examName);
+		echo json_encode($examTypeDetails); 
+	}
+
 	function addSubjectName()
 	{
 		$subjectName 	   =	isset($_REQUEST['subjectName'])?$_REQUEST['subjectName']:'';

@@ -20,7 +20,7 @@
                     <div class="form-group row ">
                         <label class="control-label col-md-3 col-sm-3 "><strong><span class="required">*</span> Exam Name : </strong></label>
                         <div class="col-md-9 col-sm-9 ">
-                          <input type="text" class="form-control" list="browsers" name="examName" id="examName" placeholder=""><label>(Exam Name : Railway, SSC , IBPS)</label>
+                          <input type="text" class="form-control" list="browsers" name="examName" id="examName" placeholder="" onchange="getExamTime()"><label>(Exam Name : Railway, SSC , IBPS)</label>
                         </div>
                     </div>
                     <div class="form-group row ">
@@ -141,6 +141,29 @@
     xhr1.send();
 
   });
+  /************************/
+  function getExamTime()
+  {
+    var examName = $('#examName').val();
+    var xhr1 = new XMLHttpRequest();
+    method = 'post',
+    url = ''+serverUrl+'examSetup/getExamTimeByEname?examName='+examName;
+
+    xhr1.onreadystatechange = function () 
+    {
+        if (xhr1.readyState === XMLHttpRequest.DONE && xhr1.status === 200)
+        {
+            var returnedData= JSON.parse(xhr1.responseText);
+            if(returnedData != '')
+            {
+              $('#examTime').val(returnedData[0]['exam_time']);
+            }    
+        }
+    };
+    xhr1.open(method, url, true);
+    xhr1.send(); 
+
+  }
 /******Add Student & Back  Button******/
 function addButton()
 {

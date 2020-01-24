@@ -32,6 +32,10 @@ class ExamSetup_Model extends Model {
 
 		return $this->db->select("SELECT * FROM exam_type WHERE exam_name = '".$examName."' AND exam_type_id = 0 ");
 	}
+	function getExamTimeByEname($examName)
+	{
+		return $this->db->select("SELECT * FROM exam_type WHERE exam_name = '".$examName."' AND exam_type_id = 0 ");
+	}
 
 	function getStudentById($id)
 	{
