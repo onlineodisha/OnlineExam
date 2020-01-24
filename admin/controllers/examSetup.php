@@ -27,7 +27,7 @@
 		$addMark				=	isset($_REQUEST['addMark'])?$_REQUEST['addMark']:'';
 		$minusMark				=	isset($_REQUEST['minusMark'])?$_REQUEST['minusMark']:'';
 		$date					=	date('Y-m-d h:i:s');
-
+		
 		$getExamTypeDetails = $this->model->getExamTypeByName($examName);
 		
 		if(isset($getExamTypeDetails[0]['exam_name']) == "$examName")
@@ -58,6 +58,29 @@
 		echo json_encode($allExamTypesData); 
 	}
 
+	function editExamSetup()
+	{
+		$id						=	isset($_REQUEST['eTID'])?$_REQUEST['eTID']:'';
+		$examName				=	isset($_REQUEST['examName'])?$_REQUEST['examName']:'';
+		$examTime				=	isset($_REQUEST['examTime'])?$_REQUEST['examTime']:'';
+		$subjectName			=	isset($_REQUEST['subjectName'])?$_REQUEST['subjectName']:'';
+		$noOfQuestion			=	isset($_REQUEST['noOfQuestion'])?$_REQUEST['noOfQuestion']:'';
+		$addMark				=	isset($_REQUEST['addMark'])?$_REQUEST['addMark']:'';
+		$minusMark				=	isset($_REQUEST['minusMark'])?$_REQUEST['minusMark']:'';
+		$date					=	date('Y-m-d');
+
+		$examTypeData	=	array('exam_name' => $examName, 'exam_time' => $examTime, 'subject_name' => $subjectName, 'no_of_question' => $noOfQuestion, 'mark_add' => $addMark, 'mark_minus' => $minusMark, 'created_date' => $date);
+
+		if($id != '')
+		{
+			
+			$updateExamTypeData = $this->model->updateExamTypeData($examTypeData, $id);
+		}
+
+		$allExamTypesData = $this->model->getAllExamTypes();
+		echo json_encode($allExamTypesData); 
+	}
+
 	function getAllExamType()
 	{
 		$allExamTypesData = $this->model->getAllExamTypes();
@@ -73,9 +96,20 @@
 	function getExamTimeByEname()
 	{
 		$examName				=	isset($_REQUEST['examName'])?$_REQUEST['examName']:'';
-		
+
 		$examTypeDetails = $this->model->getExamTypeByName($examName);
 		echo json_encode($examTypeDetails); 
+	}
+
+	function getExamTypeByID()
+	{
+		$id 	=	isset($_GET['id'])?$_GET['id']:'';
+
+			if($id != '')
+			{
+			$getExamTypeDetails	=	$this->model->getExamTypeById($id);
+            echo json_encode($getExamTypeDetails);
+			}
 	}
 
 	function addSubjectName()
@@ -139,5 +173,10 @@
 
 	}
 
+	function deleteExamTypes()
+	{
+		$id 	=	isset($_GET['id'])?$_GET['id']:'';
+		$this->model->deleteExamTypeDetails($id);
+	}
 	
 }

@@ -66,6 +66,7 @@
                       <div class="form-group">
                         <div class="col-md-9 col-sm-9  offset-md-3">
                           <input type="button" class="btn btn-primary" value="Reset"></input>
+                          <input type="hidden" id="eTID" name="eTID" value="">
                           <input type="button" class="btn btn-success" id="submitBtn"
                           onclick="submitExamDetails()" value="Submit"></input>
                         </div>
@@ -194,7 +195,8 @@ function submitExamDetails()
     var noOfQuestion    = $('#noOfQuestion').val();
     var addMark         = $('#addMark').val();
     var minusMark       = $('#minusMark').val();
-  
+    var eTID            = $('#eTID').val();
+    
     if(subjectName != '' && examName != '' && examTime != '' && noOfQuestion != '' && addMark != '' && minusMark != '')
     {
         if(submitBtnValue == 'Submit')
@@ -218,7 +220,22 @@ function submitExamDetails()
         }
         else
         {
-
+            var xhr = new XMLHttpRequest();
+            method = 'post',
+            url = ''+serverUrl+'examSetup/editExamSetup?id='+eTID+'&'+examTypeFrmData;
+            xhr.onreadystatechange = function () 
+            {
+              if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
+              {
+                  var returnedData= JSON.parse(xhr.responseText);
+                  if(returnedData != '')
+                  {
+                    examTypeListing()
+                  } 
+              }
+            };    
+            xhr.open(method, url, examTypeFrmData);
+            xhr.send();
         }
     }
     else
@@ -229,11 +246,11 @@ function submitExamDetails()
 }
 
 /******Edit Student Details*******/
-function editStudentDtls(id)
+function editExamType(id)
 {
     var xhr = new XMLHttpRequest();
     method = 'post',
-    url = ''+serverUrl+'student/getStudentDetailByID?&id='+id;
+    url = ''+serverUrl+'examSetup/getExamTypeByID?id='+id;
    
     xhr.onreadystatechange = function () {
       if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
@@ -241,26 +258,51 @@ function editStudentDtls(id)
           var returnedData= JSON.parse(xhr.responseText);
           if(returnedData != '')
           {
-            $('#studentEnrollmentForm').removeClass('d-none');
-            $('#studentEnrollmentListing').addClass('d-none');
+            $('#examTypeForm').removeClass('d-none');
+            $('#examTypeListing').addClass('d-none');
             $('#backButton').removeClass('d-none');
-            $('#addStudentBtn').addClass('d-none');
-            $('#name').val(returnedData[0]['name']);
-            $('#username').val(returnedData[0]['username']);
-            $('#fName').val(returnedData[0]['father_name']);
-            $('#address').val(returnedData[0]['address']);
-            $('#gender').val(returnedData[0]['gender']);
-            $('#mobileNo').val(returnedData[0]['mobile_no']);
-            $('#email').val(returnedData[0]['email']);
-            $('#idNo').val(returnedData[0]['id_proof_no']);
-            $('#highestDegree').val(returnedData[0]['highest_degree']);
-             $('#submitBtn').val('Update');
+            $('#addExamTypeBtn').addClass('d-none');
+            $('#examName').val(returnedData[0]['exam_name']);
+            $('#examTime').val(returnedData[0]['exam_time']);
+            $('#subjectName').val(returnedData[0]['subject_name']);
+            $('#noOfQuestion').val(returnedData[0]['no_of_question']);
+            $('#addMark').val(returnedData[0]['mark_add']);
+            $('#minusMark').val(returnedData[0]['mark_minus']);
+            $('#eTID').val(returnedData[0]['id']);
+            $('#submitBtn').val('Update');
           }   
       }
     };  
     xhr.open(method, url, true);
     xhr.send();
 
+}
+/*************Delete Exam Type**************/
+function deleteExamType(id)
+{
+  if (confirm("Are you sure you want to delete")) 
+  {
+            var xhr = new XMLHttpRequest(),
+                method = 'GET',
+                overrideMimeType = 'application/json',
+                url = ''+serverUrl+'examSetup/deleteExamTypes?id='+id;
+            xhr.onreadystatechange = function() 
+            {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) 
+                {
+                    examTypeListing();
+                    var msg1 = '';
+                    msg1  += '<div class="alert alert-danger text-center" role="alert">';
+                    msg1 += ' Exam Type Deleted Successfully';
+                    msg1 += '</div>';
+                    $('#errorMsg').html(msg1);
+                    window.setTimeout(function () { 
+                    $(".alert-danger").alert('close'); }, 2000);
+                }
+            },
+             xhr.open(method, url, true);
+             xhr.send();   
+    }
 }
 /********Student Listing********/
 function examTypeListing()

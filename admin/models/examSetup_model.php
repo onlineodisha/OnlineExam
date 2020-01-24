@@ -12,6 +12,12 @@ class ExamSetup_Model extends Model {
 		return $this->db->insert('exam_type', $data);
 	}
 
+	function updateExamTypeData($data,$id)
+	{
+		return $this->db->update('exam_type', $data,
+			"`id` = $id");
+	}
+
 	function getAllStudentDetails()
 	{
 		return $this->db->select("SELECT * FROM student_details");
@@ -31,6 +37,11 @@ class ExamSetup_Model extends Model {
 	{
 
 		return $this->db->select("SELECT * FROM exam_type WHERE exam_name = '".$examName."' AND exam_type_id = 0 ");
+	}
+
+	function getExamTypeById($id)
+	{
+		return $this->db->select("SELECT * FROM exam_type WHERE id = ".$id);
 	}
 
 	function getStudentById($id)
@@ -60,5 +71,10 @@ class ExamSetup_Model extends Model {
 	{
 		$this->db->delete('subject_details', "`id` = {$id}");
 		
+	}
+
+	public function deleteExamTypeDetails($id)
+	{
+		$this->db->delete('exam_type', "`id` = {$id}");
 	}
 }
