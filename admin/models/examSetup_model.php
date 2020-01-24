@@ -19,7 +19,7 @@ class ExamSetup_Model extends Model {
 
 	function getAllExamTypes()
 	{
-		return $this->db->select("SELECT * FROM exam_type WHERE exam_type_id != 0");
+		return $this->db->select("SELECT * FROM exam_type WHERE exam_type_id != 0 ORDER BY exam_type_id ASC");
 	}
 
 	function getAllParentExamType()
@@ -30,10 +30,6 @@ class ExamSetup_Model extends Model {
 	function getExamTypeByName($examName)
 	{
 
-		return $this->db->select("SELECT * FROM exam_type WHERE exam_name = '".$examName."' AND exam_type_id = 0 ");
-	}
-	function getExamTimeByEname($examName)
-	{
 		return $this->db->select("SELECT * FROM exam_type WHERE exam_name = '".$examName."' AND exam_type_id = 0 ");
 	}
 
