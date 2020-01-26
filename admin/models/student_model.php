@@ -21,6 +21,17 @@ class Student_Model extends Model {
 		return $this->db->select("SELECT * FROM student_details WHERE id = ".$id);
 	}
 
+	function updateStudentEnrollment($data,$id)
+	{
+
+		return $this->db->update('student_details', $data,
+			"`id` = $id");
+	}
+
+	function deleteStudentDetails($id)
+	{
+		$this->db->delete('student_details', "`id` = {$id}");
+	}
 	
 
 }

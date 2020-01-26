@@ -15,6 +15,7 @@
 
 	function createStudentEnrollment()
 	{
+
 		$name				=	isset($_REQUEST['name'])?$_REQUEST['name']:'';
 		$fatherName			=	isset($_REQUEST['fName'])?$_REQUEST['fName']:'';
 		$username			=	isset($_REQUEST['username'])?$_REQUEST['username']:'';
@@ -36,6 +37,30 @@
 		echo json_encode($allStudentData); 
 	}
 
+	function editStudentEnrollment()
+	{
+		$id					=	isset($_REQUEST['id'])?$_REQUEST['id']:'';
+		$name				=	isset($_REQUEST['name'])?$_REQUEST['name']:'';
+		$fatherName			=	isset($_REQUEST['fName'])?$_REQUEST['fName']:'';
+		$username			=	isset($_REQUEST['username'])?$_REQUEST['username']:'';
+		$password			=	isset($_REQUEST['password'])?$_REQUEST['password']:'';
+		$address			=	isset($_REQUEST['address'])?$_REQUEST['address']:'';
+		$gender				=	isset($_REQUEST['gender'])?$_REQUEST['gender']:'';
+		$dob				=	isset($_REQUEST['dob'])?$_REQUEST['dob']:'';
+		$mobileNo			=	isset($_REQUEST['mobileNo'])?$_REQUEST['mobileNo']:'';
+		$email				=	isset($_REQUEST['email'])?$_REQUEST['email']:'';
+		$idProofNo			=	isset($_REQUEST['idNo'])?$_REQUEST['idNo']:'';
+		$highestDegree		=	isset($_REQUEST['highestDegree'])?$_REQUEST['highestDegree']:'';
+		$date				=	date('Y-m-d');
+
+		$studentEnrollmentData	=	array('name' => $name, 'username' => $username, 'password' => $password, 'father_name' => $fatherName, 'address' => $address, 'gender' => $gender, 'dob' => $dob, 'mobile_no' => $mobileNo, 'email' => $email, 'id_proof_no' => $idProofNo, 'highest_degree' => $highestDegree,'updated_date' => $date);
+		
+		$insertStudentData	=	$this->model->updateStudentEnrollment($studentEnrollmentData,$id);
+		
+		$allStudentData = $this->model->getAllStudentDetails();
+		echo json_encode($allStudentData); 
+	}
+
 	function showAllStudentDetails()
 	{
 		
@@ -53,6 +78,12 @@
             echo json_encode($studentDetails);
 			}
 
+	}
+
+	function deleteStudentDtls()
+	{
+		$id 	=	isset($_GET['id'])?$_GET['id']:'';
+		$this->model->deleteStudentDetails($id);
 	}
 
 	

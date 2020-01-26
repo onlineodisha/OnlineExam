@@ -6,20 +6,7 @@
     </div>
         <div class=" top_tiles" style="margin: 10px 0;">
           <div class="col-md-12 col-sm-12 tile" id="studentEnrollmentListing" >
-            <table class="table-bordered table" id="studentListingTable">
-                <tr>
-                  <th>S.N.</th>
-                  <th>Name</th>
-                  <th>UserName</th>
-                  <th>Password</th>
-                  <th>Mobile No</th>
-                  <th>Email</th>
-                  <th>ID Proof No</th>
-                  <th>Qualification</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-          </table>
+           
         </div>
             <div class="col-md-12 col-sm-12 tile d-none" id="studentEnrollmentForm" >
                 <div class="x_panel" >
@@ -106,6 +93,7 @@
                       <div class="form-group">
                         <div class="col-md-9 col-sm-9  offset-md-3">
                           <input type="button" class="btn btn-primary" value="Reset"></input>
+                          <input hidden="hidden" id="sId" name="sId"></input>
                           <input type="button" class="btn btn-success" id="submitBtn"
                           onclick="submitStdDetails()" value="Submit"></input>
                         </div>
@@ -123,26 +111,7 @@
  
   $(document).ready(function(){
     $('#backButton').addClass('d-none');
-    var xhr = new XMLHttpRequest();
-    method = 'post',
-    url = ''+serverUrl+'student/showAllStudentDetails?';
-
-    xhr.onreadystatechange = function () 
-    {
-        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
-        {
-
-            var returnedData= JSON.parse(xhr.responseText);
-
-            if(returnedData != '')
-            {
-              studentListing(returnedData);
-              
-            }    
-        }
-    }; 
-    xhr.open(method, url, true);
-    xhr.send();
+   studentListing(); 
 
   });
 /******Add Student & Back  Button******/
@@ -166,31 +135,44 @@ function submitStdDetails()
 {		
 		var studentFrmData	=	$('#frmStudentEnrollment').serialize();
     var submitBtnValue  = $('#submitBtn').val();
+    var sid             = $('#sId').val();
 
-		/*var bannerAttachment 	= 	$('#bannerImage').prop('files')[0];
-		var formdata  	= 	new FormData();
-    	formdata.append("attachment", bannerAttachment);*/
-    if(submitBtnValue == 'submit')
+    if(submitBtnValue == 'Submit')
     {
         var xhr = new XMLHttpRequest();
         method = 'post',
         url = ''+serverUrl+'student/createStudentEnrollment?'+studentFrmData;
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+
+        xhr.onreadystatechange = function () 
+        {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
+            {
                 var returnedData= JSON.parse(xhr.responseText);
-        
-                //document.getElementById("bannerCaption").value  = "";
-                studentListing(returnedData);
+      
+                studentListing();
                 
               }
-            };
-            
+        };     
         xhr.open(method, url, studentFrmData);
         xhr.send();
     }
     else
     {
-
+        var xhr = new XMLHttpRequest();
+        method = 'post',
+        url = ''+serverUrl+'student/editStudentEnrollment?id='+sid+'&'+studentFrmData;
+        xhr.onreadystatechange = function () 
+        {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
+            {
+                var returnedData= JSON.parse(xhr.responseText);
+        
+                studentListing();
+                
+            }
+        };    
+        xhr.open(method, url, studentFrmData);
+        xhr.send();
     }
 		
 }
@@ -221,6 +203,7 @@ function editStudentDtls(id)
             $('#email').val(returnedData[0]['email']);
             $('#idNo').val(returnedData[0]['id_proof_no']);
             $('#highestDegree').val(returnedData[0]['highest_degree']);
+            $('#sId').val(returnedData[0]['id']);
              $('#submitBtn').val('Update');
           }   
       }
@@ -229,44 +212,98 @@ function editStudentDtls(id)
     xhr.send();
 
 }
+/*****************Delete Student Details******************/
+function deleteStudentDtls(id)
+{
+  if (confirm("Are you sure you want to Delete")) 
+  {
+            var xhr = new XMLHttpRequest(),
+            method = 'GET',
+            overrideMimeType = 'application/json',
+            url = ''+serverUrl+'student/deleteStudentDtls?id='+id;
+            xhr.onreadystatechange = function() 
+            {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) 
+                {
+                  studentListing();
+                  var msg1 = '';
+                  msg1  += '<div class="alert alert-danger text-center" role="alert">';
+                  msg1 += 'Student Details Deleted Successfully';
+                  msg1 += '</div>';
+                  $('#errorMsg').html(msg1);
+                  window.setTimeout(function () { 
+                  $(".alert-danger").alert('close'); }, 2000);
+                }
+            },
+             xhr.open(method, url, true);
+             xhr.send();   
+    }
+}
+/*****************Delete Student Details******************/
 /********Student Listing********/
-function studentListing(data)
+function studentListing()
 {
     var studentData = '';
-    if(data != '')
+    var xhr = new XMLHttpRequest();
+    method = 'post',
+    url = ''+serverUrl+'student/showAllStudentDetails?';
+
+    xhr.onreadystatechange = function () 
     {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
+        {
 
-      for(var i =0; i< data.length; i++)
+            var data= JSON.parse(xhr.responseText);
 
-      {     
-            studentData = '<tr>';
-            studentData += '<td>'+(i+1)+'</td>';
-            studentData += '<td>'+data[i]['name']+'</td>';
-            studentData += '<td>'+data[i]['username']+'</td>';
-            studentData += '<td>'+data[i]['password']+'</td>';
-            studentData += '<td>'+data[i]['mobile_no']+'</td>';
-            studentData += '<td>'+data[i]['email']+'</td>';
-            studentData += '<td>'+data[i]['id_proof_no']+'</td>';
-            studentData += '<td>'+data[i]['highest_degree']+'</td>';
-            if(data[i]['is_active'] == 1)
-            {
-              //studentData += '<td>'+'Active'+'</td>';
-              studentData += '<td>'+'<button type="button" class="" id="stdActDeactBtn" onclick="studentActDeact('+data[i]['id']+','+data[i]['is_active']+')" data-toggle="tooltip" title="Deactive" ><i class="fa fa-check-circle text-primary" ></i>&nbsp;&nbsp;</button>'+'</td>';
-            }
-            else
-            {
-              //studentData += '<td>'+'Inactive'+'</td>';
-              studentData += '<td>'+'<button type="button" class="" id="stdActDeactBtn" onclick="studentActDeact('+data[i]['id']+','+data[i]['is_active']+')" data-toggle="tooltip" title="Active"><i class="fa fa-ban"></i>&nbsp;&nbsp;</button>'+'</td>';
-            }
-            studentData += '<td><button type="button" class="" id="editStudentBtn"  onclick="editStudentDtls('+data[i]['id']+')"><i class="fa fa-edit btn-edit"></i>&nbsp;&nbsp;</button><button type="button" class="" id="DeleteStudentBtn"  onclick="deleteStudentDtls('+data[i]['id']+')"><i class="fa fa-trash text-danger" style="color:red"></i>&nbsp;&nbsp;</button></td>';
-            studentData += '</tr>';
-            $('#studentListingTable').append(studentData);
-      }
-      $('#studentEnrollmentForm').addClass('d-none');
-      $('#studentEnrollmentListing').removeClass('d-none');       
-      $('#backButton').addClass('d-none');       
-      
-    }
+            if(data != '')
+            { 
+                studentData = '<table class="table-bordered table" id="studentListingTable"><tr>';
+                studentData += '<th>S.N.</th>';
+                studentData += '<th>Name</th>';
+                studentData += '<th>UserName</th>';
+                studentData += '<th>Password</th>';
+                studentData += '<th>Mobile No</th>';
+                studentData += '<th>Email</th>';
+                studentData += '<th>ID Proof No</th>';
+                studentData += '<th>Qualification</th>';
+                studentData += '<th>Status</th>';
+                studentData += '<th>Action</th></tr>';
+
+              for(var i =0; i< data.length; i++)
+              {     
+                  studentData += '<tr>';
+                  studentData += '<td>'+(i+1)+'</td>';
+                  studentData += '<td>'+data[i]['name']+'</td>';
+                  studentData += '<td>'+data[i]['username']+'</td>';
+                  studentData += '<td>'+data[i]['password']+'</td>';
+                  studentData += '<td>'+data[i]['mobile_no']+'</td>';
+                  studentData += '<td>'+data[i]['email']+'</td>';
+                  studentData += '<td>'+data[i]['id_proof_no']+'</td>';
+                  studentData += '<td>'+data[i]['highest_degree']+'</td>';
+                  if(data[i]['is_active'] == 1)
+                  {
+              
+                      studentData += '<td>'+'<button type="button" class="" id="stdActDeactBtn" onclick="studentActDeact('+data[i]['id']+','+data[i]['is_active']+')" data-toggle="tooltip" title="Deactive" ><i class="fa fa-check-circle text-primary" ></i>&nbsp;&nbsp;</button>'+'</td>';
+                  }
+                  else
+                  {
+              
+                      studentData += '<td>'+'<button type="button" class="" id="stdActDeactBtn" onclick="studentActDeact('+data[i]['id']+','+data[i]['is_active']+')" data-toggle="tooltip" title="Active"><i class="fa fa-ban"></i>&nbsp;&nbsp;</button>'+'</td>';
+                  }
+                    studentData += '<td><button type="button" class="" id="editStudentBtn"  onclick="editStudentDtls('+data[i]['id']+')"><i class="fa fa-edit btn-edit"></i>&nbsp;&nbsp;</button><button type="button" class="" id="DeleteStudentBtn"  onclick="deleteStudentDtls('+data[i]['id']+')"><i class="fa fa-trash text-danger" style="color:red"></i>&nbsp;&nbsp;</button></td>';
+                    studentData += '</tr>';
+                   
+              }
+                  studentData += '</table>'; 
+                  $('#studentEnrollmentListing').html(studentData);
+                  $('#studentEnrollmentForm').addClass('d-none');
+                  $('#studentEnrollmentListing').removeClass('d-none');       
+                  $('#backButton').addClass('d-none'); 
+            }    
+        }
+    }; 
+    xhr.open(method, url, true);
+    xhr.send();
 }
 </script>
 
