@@ -7,9 +7,9 @@ class Question_Model extends Model {
 		
 	}
 
-	function getExamData()
+	function getExamDataByPama($param='')
 	{
-		return $this->db->select("SELECT * FROM exam_type");
+		return $this->db->select("SELECT * FROM exam_type ".$param."");
 	}
 
 }

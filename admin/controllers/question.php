@@ -14,6 +14,15 @@
 	}
 	function getExamData()
 	{
-		echo json_encode($this->model->getExamData());
+		$examName	=	isset($_REQUEST['examName']) ? $_REQUEST['examName'] : '';
+		if($examName != '')
+		{
+			$param 	= 	"WHERE exam_name='".$examName."'";
+			echo json_encode($this->model->getExamDataByPama($param));
+		}else
+		{
+			$param 	= 	"WHERE exam_type_id = 0";
+			echo json_encode($this->model->getExamDataByPama($param));
+		}
 	}
 }
