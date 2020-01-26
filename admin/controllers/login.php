@@ -9,11 +9,11 @@
 	}
 
 	function index(){
-		$this->view->render('login/index',true);
+		$this->view->render('index/index',true);
 		}
 
 	 function run()
-	{	echo 43354;
+	{	
 		$this->model->run();
 		
 	}

@@ -7,20 +7,18 @@ class View {
 	}
 	public function render($name, $noInclude = false)
 	{
-		//echo "<pre>";print_r($this->sliderData);die;
-		global $header_menus;
-		global $newsDataDetails;
-		global $pageTitles;
-		//echo "<pre>";print_r($header_menus);die;
-		/*$subname = explode("/",$name);
-		if ($noInclude == true) {
-			require 'views/' . $name . '.php';	
-		}
-		else {*/
+		
+			if($name == 'index/index')
+			{
+				require 'view/'.$name.'.php';
+			}
+			else
+			{
+				require 'view/header.php';
+				require 'view/'.$name.'.php';
+				require 'view/footer.php';
+			}
 			
-			require 'views/header.php';
-			require 'views/' . $name . '.php';
-			require 'views/footer.php';
 			//}
 			
 		

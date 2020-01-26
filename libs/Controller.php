@@ -20,9 +20,9 @@ class Controller {
 //echo "<pre>";print_r($name);die;
 		$path = 'models/'.$name.'_model.php';
 		//echo "<pre>";print_r($path);die;
-		if (file_exists($path)) {
+		if (file_exists($path)) 
+		{
 			require 'models/'.$name.'_model.php';
-			
 			$modelName = $name . '_Model';
 			//echo "<pre>";print_r($modelName);die;
 			$this->model = new $modelName();

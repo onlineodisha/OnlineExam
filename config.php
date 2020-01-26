@@ -15,7 +15,7 @@ if($_SERVER['HTTP_HOST']!="http://localhost"){
 	else
 	{
 		
-		define('URL', 'http://localhost/OnlineExam'); 
+		define('URL', 'http://localhost/OnlineExam/'); 
  		define('LIBS', 'libs/');	
 	}
  }
