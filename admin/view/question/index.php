@@ -26,6 +26,13 @@
 		    </div>
 		  </div>
 
+		  <div class="form-row">
+		  	<input type="hidden" name="QNO" id="QNO" value="">
+		  	<div class="form-group col-md-4"></div>
+		  	<div class="form-group col-md-4 text-center text-success" id="totalQNo"></div>
+		  	<div class="form-group col-md-4"></div>
+		  </div>
+
 		</form>
     </div>
 
@@ -124,25 +131,31 @@
 		            if(returnedData != '')
 		            {
 		            	var Qno 	=	parseInt(returnedData[0]['no_of_question']);
+		            	var totalQNo = 'Total Question '+Qno;
+		            	$('#totalQNo').text(totalQNo);
+		            	$('#QNO').val(Qno);
 		            	var questions = '';
 		            	for(var i = 0; i < Qno; i++)
 		            	{
 		            		var j = i+1
 		            		questions += '<div class="form-group col-md-12">';
-		            		questions += '<label>Question No '+j+'</label>';
-		            		questions += '<input name="Qno_'+j+'" id="Qno_'+j+'" value="" class="form-control">';
+		            		questions += '<label><span class="text-danger">*</span>Question No '+j+'</label>';
+		            		questions += '<input name="QTitle[]" id="QTitle_'+j+'" value="" class="form-control">';
+		            		questions += '<span id="QTitleError_'+j+'" class="text-danger error"></span>';
 		            		questions += '</div>'
 		            		questions += '<div class="form-group col-md-12">';
-		            		questions += '<label>Options</label>';
-		            		questions += '<textarea rows="4" cols="100" name="Qoptions_'+j+'" id="Qoptions_'+j+'" class="form-control"></textarea>';
+		            		questions += '<label><span class="text-danger">*</span>Options</label>';
+		            		questions += '<textarea rows="4" cols="100" name="Qoptions[]" id="Qoptions_'+j+'" class="form-control"></textarea>';
+		            		questions += '<span id="QoptionsError_'+j+'" class="text-danger error"></span>';
 		            		questions += '</div>';
 		            		questions += '<div class="form-group col-md-12">';
-		            		questions += '<label>Answere</label>';
-		            		questions += '<input name="Qanswere_'+j+'" id="Qanswere_'+j+'" class="form-control">';
+		            		questions += '<label><span class="text-danger">*</span>Answere</label>';
+		            		questions += '<input name="Qanswere[]" id="Qanswere_'+j+'" class="form-control">';
+		            		questions += '<span id="QanswereError_'+j+'" class="text-danger error"></span>';
 		            		questions += '</div>';
 		            	}
 		            	questions += '<div class="form-group col-md-12 text-center">';
-		            	questions += '<input type="button" value="Submit" class="btn btn-primary">';
+		            	questions += '<input type="button" value="Submit" class="btn btn-primary" onclick="submitBtn()">';
 		            	questions += '</div>';
 		            	$('#questionFrom').append(questions);
 		            }  
@@ -152,5 +165,39 @@
 		    xhr.send();
 		}
 		
+	}
+	function submitBtn()
+	{
+		var QNumbers 		=  $("input[name='QTitle[]']").map(function(){return $(this).val();}).get();
+		var Qoptions 		=  $("input[name='Qoptions[]']").map(function(){return $(this).val();}).get();
+		var Qanswere 		=  $("input[name='Qanswere[]']").map(function(){return $(this).val();}).get();
+		var NoOfQuestion 	=  $('#QNO').val();
+		var validationError	=  [];			
+		for(var i = 1; i <= NoOfQuestion; i++)
+		{
+			var singleQTitle	=	$('#QTitle_'+i).val();
+			var singleQoption	=	$('#Qoptions_'+i).val();
+			var singleAns		=	$('#Qanswere_'+i).val();
+			console.log(singleAns);
+			if(singleQTitle == '')
+			{
+				$('#QTitleError_'+i).text('Please enter the Question title');
+				validationError.push({'QTitle':i});
+			}else
+				$('#QTitleError_'+i).text('');
+			if(singleQoption == '')
+			{
+				$('#QoptionsError_'+i).text('Please enter the Questions Options');
+				validationError.push({'Qoptions':i});
+			}else
+				$('#QoptionsError_'+i).text('');
+			console.log(Qanswere == '');
+			if(Qanswere == '')
+			{
+				$('#QanswereError_'+i).text('Please enter the Questions Answere');
+				validationError.push({'Qanswere':i});
+			}else
+				$('#QanswereError_'+i).text('');	
+		}
 	}
 </script>
