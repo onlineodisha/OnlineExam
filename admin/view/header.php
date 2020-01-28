@@ -37,7 +37,7 @@
     <div class="container body">
       <div class="main_container">
         <div class="col-md-3 left_col">
-          <div class="left_col scroll-view">
+          <div class="left_col scroll-view" id="leftPanel">
             <div class="navbar nav_title" style="border: 0;">
               <a href="#" class="site_title"><i class="fa fa-paw"></i> <span>Online Exam</span></a>
             </div>
@@ -133,7 +133,7 @@
 
         <!-- top navigation -->
         <div class="top_nav">
-            <div class="nav_menu">
+            <div class="nav_menu" id="rightSection">
                 <div class="nav toggle">
                   <a id="menu_toggle"><i class="fa fa-bars"></i></a>
                 </div>

@@ -1,7 +1,7 @@
 <div class="right_col" role="main">
 	<div class="bg-primary text-center text-white p-2 my-3"><h2 class="">Add Questions</h2></div>
-    <div class="questionForm border p-3">
-    	<form>
+    <div class="question border p-3">
+    	<form id="questionFrom" name="questionFrom">
 		  <div class="form-row">
 		    <div class="form-group col-md-6">
 		      <label for="examType">Exam Type:-</label>
@@ -17,7 +17,7 @@
 		  <div class="form-row">
 		    <div class="form-group col-md-6">
 		      <label for="timing">Subject:-</label>
-		      <select id="selectSubject" class="form-control">
+		      <select id="selectSubject" class="form-control" onclick="getSubjectDetails()">
 		      </select>
 		    </div>
 		    <div class="form-group col-md-6">
@@ -26,7 +26,6 @@
 		    </div>
 		  </div>
 
-		  <button type="submit" class="btn btn-primary">Sign in</button>
 		</form>
     </div>
 
@@ -82,7 +81,7 @@
 	         				$('#examTime').val(returnedData[i]['exam_time']);
 	         			}else
 	         			{
-	         				subjects += '<option value="'+returnedData[i]['subject_name']+'">'+returnedData[i]['subject_name']+'</option>';
+	         				subjects += '<option value="'+returnedData[i]['id']+'">'+returnedData[i]['subject_name']+'</option>';
 	         			}
 	         		}
 	         		$('#selectSubject').html(subjects);
@@ -107,5 +106,51 @@
         });
         setOptions    +=  '</select>';
         $('#setDiv').html(setOptions);
+	}
+	function getSubjectDetails()
+	{
+		var id 	=	$('#selectSubject option:selected').val();
+
+		if(id != '')
+		{
+			var xhr = new XMLHttpRequest();
+		    method = 'post',
+		    url = ''+serverUrl+'question/getExamData?id='+id;
+		    xhr.onreadystatechange = function () 
+		    {
+		        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
+		        {
+		            var returnedData= JSON.parse(xhr.responseText);
+		            if(returnedData != '')
+		            {
+		            	var Qno 	=	parseInt(returnedData[0]['no_of_question']);
+		            	var questions = '';
+		            	for(var i = 0; i < Qno; i++)
+		            	{
+		            		var j = i+1
+		            		questions += '<div class="form-group col-md-12">';
+		            		questions += '<label>Question No '+j+'</label>';
+		            		questions += '<input name="Qno_'+j+'" id="Qno_'+j+'" value="" class="form-control">';
+		            		questions += '</div>'
+		            		questions += '<div class="form-group col-md-12">';
+		            		questions += '<label>Options</label>';
+		            		questions += '<textarea rows="4" cols="100" name="Qoptions_'+j+'" id="Qoptions_'+j+'" class="form-control"></textarea>';
+		            		questions += '</div>';
+		            		questions += '<div class="form-group col-md-12">';
+		            		questions += '<label>Answere</label>';
+		            		questions += '<input name="Qanswere_'+j+'" id="Qanswere_'+j+'" class="form-control">';
+		            		questions += '</div>';
+		            	}
+		            	questions += '<div class="form-group col-md-12 text-center">';
+		            	questions += '<input type="button" value="Submit" class="btn btn-primary">';
+		            	questions += '</div>';
+		            	$('#questionFrom').append(questions);
+		            }  
+		        }
+		    }; 
+		    xhr.open(method, url, true);
+		    xhr.send();
+		}
+		
 	}
 </script>
