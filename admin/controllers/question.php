@@ -31,4 +31,8 @@
 			echo json_encode($this->model->getExamDataByPama($param));
 		}
 	}
+	function addQuestion()
+	{
+		echo "<pre>";print_r($_REQUEST);die;
+	}
 }

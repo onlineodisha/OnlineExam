@@ -27,7 +27,7 @@
 		  </div>
 
 		  <div class="form-row">
-		  	<input type="hidden" name="QNO" id="QNO" value="">
+		  	<input type="hidden" name="noOfQuestion" id="noOfQuestion" value="">
 		  	<div class="form-group col-md-4"></div>
 		  	<div class="form-group col-md-4 text-center text-success" id="totalQNo"></div>
 		  	<div class="form-group col-md-4"></div>
@@ -130,12 +130,12 @@
 		            var returnedData= JSON.parse(xhr.responseText);
 		            if(returnedData != '')
 		            {
-		            	var Qno 	=	parseInt(returnedData[0]['no_of_question']);
-		            	var totalQNo = 'Total Question '+Qno;
+		            	var noOfQuestion 	=	parseInt(returnedData[0]['no_of_question']);
+		            	var totalQNo = 'Total Question '+noOfQuestion;
 		            	$('#totalQNo').text(totalQNo);
-		            	$('#QNO').val(Qno);
+		            	$('#noOfQuestion').val(noOfQuestion);
 		            	var questions = '';
-		            	for(var i = 0; i < Qno; i++)
+		            	for(var i = 0; i < noOfQuestion; i++)
 		            	{
 		            		var j = i+1
 		            		questions += '<div class="form-group col-md-12">';
@@ -153,9 +153,10 @@
 		            		questions += '<input name="Qanswere[]" id="Qanswere_'+j+'" class="form-control">';
 		            		questions += '<span id="QanswereError_'+j+'" class="text-danger error"></span>';
 		            		questions += '</div>';
+		            		questions += '<input type="hidden" name="qNo[]" id="qNo_'+j+'" value="'+j+'">'
 		            	}
 		            	questions += '<div class="form-group col-md-12 text-center">';
-		            	questions += '<input type="button" value="Submit" class="btn btn-primary" onclick="submitBtn()">';
+		            	questions += '<input type="button" value="Submit" id="submitBtnVal" class="btn btn-primary" onclick="submitBtn()">';
 		            	questions += '</div>';
 		            	$('#questionFrom').append(questions);
 		            }  
@@ -171,14 +172,14 @@
 		var QNumbers 		=  $("input[name='QTitle[]']").map(function(){return $(this).val();}).get();
 		var Qoptions 		=  $("input[name='Qoptions[]']").map(function(){return $(this).val();}).get();
 		var Qanswere 		=  $("input[name='Qanswere[]']").map(function(){return $(this).val();}).get();
-		var NoOfQuestion 	=  $('#QNO').val();
+		var NoOfQuestion 	=  $('#noOfQuestion').val();
 		var validationError	=  [];			
 		for(var i = 1; i <= NoOfQuestion; i++)
 		{
 			var singleQTitle	=	$('#QTitle_'+i).val();
 			var singleQoption	=	$('#Qoptions_'+i).val();
 			var singleAns		=	$('#Qanswere_'+i).val();
-			console.log(singleAns);
+			
 			if(singleQTitle == '')
 			{
 				$('#QTitleError_'+i).text('Please enter the Question title');
@@ -191,13 +192,41 @@
 				validationError.push({'Qoptions':i});
 			}else
 				$('#QoptionsError_'+i).text('');
-			console.log(Qanswere == '');
-			if(Qanswere == '')
+			if(singleAns == '')
 			{
 				$('#QanswereError_'+i).text('Please enter the Questions Answere');
 				validationError.push({'Qanswere':i});
 			}else
 				$('#QanswereError_'+i).text('');	
+		}
+
+		if(validationError.length == 0)
+		{
+			var submitBtnVal = $('#submitBtnVal').val();
+			var formData  = $('#questionFrom').serialize();	
+
+			if(submitBtnVal == 'Submit')
+			{
+				var xhr = new XMLHttpRequest();
+			    method = 'post',
+			    url = ''+serverUrl+'question/addQuestion?'+formData;
+			    xhr.onreadystatechange = function () 
+			    {
+			        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
+			        {
+			            /*var returnedData= JSON.parse(xhr.responseText);
+			            if(returnedData != '')
+			            {
+			            	
+					    }*/
+			        }
+			    }; 
+			    xhr.open(method, url, true);
+			    xhr.send();	
+			}else
+			{
+
+			}
 		}
 	}
 </script>
