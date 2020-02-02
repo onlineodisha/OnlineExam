@@ -29,7 +29,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 
     <!-- Include CKEditor -->
-    <script src="<?php echo URL;?>public/ckeditor5-build-classic/ckeditor.js"></script>
+    <!--<script src="<?php echo URL;?>public/ckeditor5-build-classic/ckeditor.js"></script>-->
     
   </head>
 
