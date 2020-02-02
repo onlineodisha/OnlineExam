@@ -29,7 +29,7 @@
 		  <div class="form-row">
 		  	<div class="form-group col-md-6">
 		      <label for="timing">Question No:-</label>
-		      <select name="selectQNo" id="selectQNo" class="form-control" onclick="">
+		      <select name="selectQNo" id="selectQNo" class="form-control" onclick="getQuestionData()">
 		      </select>
 		    </div>
 		    <div class="form-group col-md-6">
@@ -197,19 +197,20 @@
 		    xhr.open(method, url, true);
 		    xhr.send();
 		}
-
-		$('select').on('change', function() 
+	}
+		/*$('select').on('change', function() */
+		function getQuestionData()
          {
                 var selectQno   =   $('#selectQNo option:selected').val();
                 var examType 	=   $('#selectExamType option:selected').val();
                 var examTime 	=   $('#examTime').val();
                 var setNo 	    =   $('#setSelect option:selected').val();
                 var subjectName =   $('#selectSubject option:selected').val();
-
+                
                 var xhr1 = new XMLHttpRequest();
 		    	method = 'post',
 		   	 	url = ''+serverUrl+'question/getQuestionData?Qno='+selectQno+'&examType='+examType+'&setNo='+setNo+'&subjectName='+subjectName;
-		   	 	alert(url);
+		   	 	
 		    	xhr1.onreadystatechange = function () 
 		    	{
 		        	if (xhr1.readyState === XMLHttpRequest.DONE && xhr1.status === 200)
@@ -254,9 +255,10 @@
 		        };
 		        xhr1.open(method, url, true);
 		    	xhr1.send();
-             });
+		    }
+            /* });*/
 
-	}
+	
 
 
 		

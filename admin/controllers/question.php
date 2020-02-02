@@ -72,7 +72,7 @@
 		$subjectName 	=	isset($_REQUEST['subjectName']) ? $_REQUEST['subjectName'] : '';
 		$Qno 		=	isset($_REQUEST['Qno']) ? $_REQUEST['Qno'] : '';
 		
-		$param       = "WHERE exam_type = '".$examType."' AND set_no = '$setNo' AND subject = '$subjectName' AND q_no = '$Qno'";
+		$param       = "WHERE (exam_type = '".$examType."' AND set_no = '".$setNo."') AND (subject = ".$subjectName." AND q_no = ".$Qno.")";
 
 		$questionDetails	=	$this->model->getQuestionDetailsByParam($param);
 		echo json_encode($questionDetails);
