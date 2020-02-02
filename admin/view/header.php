@@ -22,7 +22,7 @@
     <link href="<?php echo URL;?>public/css/daterangepicker.css" rel="stylesheet">
     <!-- common css -->
     <link href="<?php echo URL;?>public/css/common.css" rel="stylesheet">
-
+    <script src="<?php echo URL;?>public/ckeditor/ckeditor.js"></script>
     
     <!-- Custom Theme Style -->
     <link href="<?php echo URL;?>public/css/custom.min.css" rel="stylesheet">

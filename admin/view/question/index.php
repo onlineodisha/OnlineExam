@@ -5,32 +5,69 @@
 		  <div class="form-row">
 		    <div class="form-group col-md-6">
 		      <label for="examType">Exam Type:-</label>
-		      <select id="selectExamType" class="form-control" onchange="examInfo()">
+		      <select name="selectExamType" id="selectExamType" class="form-control" onchange="examInfo()">
 		      </select>
 		    </div>
 		    <div class="form-group col-md-6">
 		      <label for="timing">Time:-</label>
-		      <input type="text" class="form-control" id="examTime" placeholder="Exam Time" value="">
+		      <input name="examTime" type="text" class="form-control" id="examTime" placeholder="Exam Time" value="">
 		    </div>
 		  </div>
 
 		  <div class="form-row">
-		    <div class="form-group col-md-6">
-		      <label for="timing">Subject:-</label>
-		      <select id="selectSubject" class="form-control" onclick="getSubjectDetails()">
-		      </select>
-		    </div>
 		    <div class="form-group col-md-6">
 		      <label for="subject">Set Type:-</label>
-		      <div class="" id="setDiv"></div>
+		      <!-- <div class="" ></div> -->
+		      <select name="setSelect" id="setSelect" class="form-control"> </select>
+		    </div>
+		    <div class="form-group col-md-6">
+		      <label for="timing">Subject:-</label>
+		      <select name="selectSubject" id="selectSubject" class="form-control" onclick="getSubjectDetails()">
+		      </select>
 		    </div>
 		  </div>
-
 		  <div class="form-row">
-		  	<input type="hidden" name="noOfQuestion" id="noOfQuestion" value="">
-		  	<div class="form-group col-md-4"></div>
-		  	<div class="form-group col-md-4 text-center text-success" id="totalQNo"></div>
-		  	<div class="form-group col-md-4"></div>
+		  	<div class="form-group col-md-6">
+		      <label for="timing">Question No:-</label>
+		      <select name="selectQNo" id="selectQNo" class="form-control" onclick="">
+		      </select>
+		    </div>
+		  </div>
+		  <div class="form-row" id="addNewQuestion">
+		  	<div class="form-group col-md-12">
+		      <label for="timing">Question Title:-</label>
+		      <textarea class="form-control" type="text" id="questionTitle" name="questionTitle" > </textarea>
+		    </div>
+		    <div class="form-group col-md-12">
+		      <label for="timing">Option 1:-</label>
+		      <textarea class="form-control" type="text" id="option1" name="option1" ></textarea>
+		    </div>
+		    <div class="form-group col-md-12">
+		      <label for="timing">Option 2:-</label>
+		      <textarea class="form-control" type="text" id="option2" name="option2" ></textarea>
+		    </div>
+		    <div class="form-group col-md-12">
+		      <label for="timing">Option 3:-</label>
+		      <textarea class="form-control" type="text" id="option3" name="option3" ></textarea>
+		    </div>
+		    <div class="form-group col-md-12">
+		      <label for="timing">Option 4:-</label>
+		      <textarea class="form-control" type="text" id="option4" name="option4" ></textarea>
+		    </div>
+		    <div class="form-group col-md-12">
+		      <label for="timing">Correct Answer:-</label>
+		      <select class="form-control" id="correctOption" name="correctOption" > 
+		      <option value="">Choose Correct Option</option>
+		      <option value="1">1</option>
+		      <option value="2">2</option>
+		      <option value="3">3</option>
+		      <option value="4">4</option>
+		      </select>
+		    </div>
+		    <div class="form-group col-md-12">
+		      <input class="btn-btn-primary" type="button" id="submitQuestion" onclick="submitBtn()" value="Add Question">
+		      <input class="btn-btn-primary" type="button" id="cancelBtn" onclick="cancelBtn()" value="Cancel">
+		    </div>
 		  </div>
 
 		</form>
@@ -102,17 +139,18 @@
 	function getSets()
 	{
 		var sets  =   '';
-        var setOptions    =   '<select id="setSelect" class="form-control">';
-        setOptions        +=  '<option value="">Select a Set</option>';
-
+        var setOptions    =   '';
+       
+        $('#setSelect').empty();
         $.getJSON(serverUrl+'public/json/setTypes.json', function(result){
             $.each(result, function(setCode, setName){
-                sets    +=  '<option value="'+setName+'">'+setName+'</option>';
+
+                setOptions    =  '<option value="'+setName+'">'+setName+'</option>';
+                $('#setSelect').append(setOptions);
             });
-            $('#setSelect').html(sets);
+            
         });
-        setOptions    +=  '</select>';
-        $('#setDiv').html(setOptions);
+       
 	}
 	function getSubjectDetails()
 	{
@@ -130,50 +168,74 @@
 		            var returnedData= JSON.parse(xhr.responseText);
 		            if(returnedData != '')
 		            {
-		            	var noOfQuestion 	=	parseInt(returnedData[0]['no_of_question']);
-		            	var totalQNo = 'Total Question '+noOfQuestion;
-		            	$('#totalQNo').text(totalQNo);
-		            	$('#noOfQuestion').val(noOfQuestion);
-		            	var questions = '';
+		            	$('.questionDetailsDiv').remove();
+		            	$('#selectQNo').empty();
+		            	var noOfQuestion = returnedData[0]['no_of_question'];
+		            	
+		            	var optionVal = '';
+		            	optionVal = '<option value="">Select Question No...</option>';
 		            	for(var i = 0; i < noOfQuestion; i++)
 		            	{
-		            		var j = i+1
-		            		questions += '<div class="form-group col-md-12">';
-		            		questions += '<label><span class="text-danger">*</span>Question No '+j+'</label>';
-		            		questions += '<input name="QTitle[]" id="QTitle_'+j+'" value="" class="form-control">';
-		            		questions += '<span id="QTitleError_'+j+'" class="text-danger error"></span>';
-		            		questions += '</div>'
-		            		questions += '<div class="form-group col-md-12">';
-		            		questions += '<label><span class="text-danger">*</span>Options</label>';
-		            		questions += '<textarea rows="4" cols="100" name="Qoptions[]" id="Qoptions_'+j+'" class="form-control"></textarea>';
-		            		questions += '<span id="QoptionsError_'+j+'" class="text-danger error"></span>';
-		            		questions += '</div>';
-		            		questions += '<div class="form-group col-md-12">';
-		            		questions += '<label><span class="text-danger">*</span>Answere</label>';
-		            		questions += '<input name="Qanswere[]" id="Qanswere_'+j+'" class="form-control">';
-		            		questions += '<span id="QanswereError_'+j+'" class="text-danger error"></span>';
-		            		questions += '</div>';
-		            		questions += '<input type="hidden" name="qNo[]" id="qNo_'+j+'" value="'+j+'">'
+		            		var j = i+1;
+
+		            		optionVal += '<option value="'+j+'">'+j+'</option>';
+		            		$('#selectQNo').html(optionVal);
 		            	}
-		            	questions += '<div class="form-group col-md-12 text-center">';
-		            	questions += '<input type="button" value="Submit" id="submitBtnVal" class="btn btn-primary" onclick="submitBtn()">';
-		            	questions += '</div>';
-		            	$('#questionFrom').append(questions);
+		            	
 		            }  
 		        }
 		    }; 
 		    xhr.open(method, url, true);
 		    xhr.send();
 		}
+
+		 $('select').on('change', function() 
+         {
+                var selectQno   =   $('#selectQNo option:selected').val();
+                var examType 	=   $('#selectExamType option:selected').val();
+                var examTime 	=   $('#examTime').val();
+                var setNo 	    =   $('#setSelect option:selected').val();
+                var subjectName =   $('#selectSubject option:selected').val();
+
+                var xhr1 = new XMLHttpRequest();
+		    	method = 'post',
+		   	 	url = ''+serverUrl+'question/getQuestionData?Qno='+selectQno+'&examType='+examType+'&setNo='+setNo+'&subjectName='+subjectName;
+		    	xhr1.onreadystatechange = function () 
+		    	{
+		        	if (xhr1.readyState === XMLHttpRequest.DONE && xhr1.status === 200)
+		        	{
+		            	var returnedData= JSON.parse(xhr1.responseText);
+		            	if(returnedData != '')
+		            	{
+		            		$('#questionTitle').val(returnedData[0]['q_title']);
+		            		$('#option1').val(returnedData[0]['q_option1']);
+		            		$('#option2').val(returnedData[0]['q_option2']);
+		            		$('#option3').val(returnedData[0]['q_option3']);
+		            		$('#option4').val(returnedData[0]['q_option4']);
+		            		$('#correctOption').val(returnedData[0]['correct_option']);
+		            		$('#submitQuestion').val('Update');
+		            	}
+		            	else
+		            	{
+		            		$('#questionTitle').val('');
+		            		$('#option1').val('');
+		            		$('#option2').val('');
+		            		$('#option3').val('');
+		            		$('#option4').val('');
+		            		$('#correctOption').val('');
+		            		$('#submitQuestion').val('Add Question');
+		            	}
+		            }
+		        };
+		        xhr1.open(method, url, true);
+		    	xhr1.send();
+             });
 		
 	}
 	function submitBtn()
 	{
-		var QNumbers 		=  $("input[name='QTitle[]']").map(function(){return $(this).val();}).get();
-		var Qoptions 		=  $("input[name='Qoptions[]']").map(function(){return $(this).val();}).get();
-		var Qanswere 		=  $("input[name='Qanswere[]']").map(function(){return $(this).val();}).get();
-		var NoOfQuestion 	=  $('#noOfQuestion').val();
-		var validationError	=  [];			
+		
+		/*var validationError	=  [];			
 		for(var i = 1; i <= NoOfQuestion; i++)
 		{
 			var singleQTitle	=	$('#QTitle_'+i).val();
@@ -198,14 +260,14 @@
 				validationError.push({'Qanswere':i});
 			}else
 				$('#QanswereError_'+i).text('');	
-		}
+		}*/
 
-		if(validationError.length == 0)
+		/*if(validationError.length == 0)
 		{
-			var submitBtnVal = $('#submitBtnVal').val();
+		*/	var submitBtnVal = $('#submitQuestion').val();
 			var formData  = $('#questionFrom').serialize();	
 
-			if(submitBtnVal == 'Submit')
+			if(submitBtnVal == 'Add Question')
 			{
 				var xhr = new XMLHttpRequest();
 			    method = 'post',
@@ -227,6 +289,6 @@
 			{
 
 			}
-		}
+		/*}*/
 	}
 </script>
