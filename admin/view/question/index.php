@@ -77,7 +77,10 @@
 <script type="text/javascript">
 	var serverUrl 	= 	"<?php echo URL; ?>";
 	$(document).ready(function(){
-		//CKEDITOR.replace('questionOption');
+		CKEDITOR.replace('questionTitle');
+		CKEDITOR.replace('option2');
+		CKEDITOR.replace('option3');
+		CKEDITOR.replace('option4');
 		getExamData();
 	});
 	function getExamData()
