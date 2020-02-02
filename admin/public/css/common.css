@@ -1,3 +1,3 @@
 #leftPanel{position: fixed;}
 .profile_pic{float: none !important;}
-#rightSection{position: fixed;z-index: 999;}
+#rightSection{z-index: 999;}
