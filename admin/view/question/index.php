@@ -32,6 +32,11 @@
 		      <select name="selectQNo" id="selectQNo" class="form-control" onclick="">
 		      </select>
 		    </div>
+		    <div class="form-group col-md-6">
+		      <label for="timing">Upload Question From Excel Here:-</label>
+		      <input type="file" name="QfromExcel" id="QfromExcel" class="form-control" >
+		      <input class="btn-btn-primary" type="button" value="Upload" onclick="uploadQuestionFromExcel()"></input>
+		    </div>
 		  </div>
 		  <div class="form-row" id="addNewQuestion">
 		  	<div class="form-group col-md-12">
@@ -40,19 +45,19 @@
 		    </div>
 		    <div class="form-group col-md-12">
 		      <label for="timing">Option 1:-</label>
-		      <textarea class="form-control" type="text" id="option1" name="option1" ></textarea>
+		      <textarea class="form-control" type="text" id="optionOne" name="optionOne" ></textarea>
 		    </div>
 		    <div class="form-group col-md-12">
 		      <label for="timing">Option 2:-</label>
-		      <textarea class="form-control" type="text" id="option2" name="option2" ></textarea>
+		      <textarea class="form-control" type="text" id="optionTwo" name="optionTwo" ></textarea>
 		    </div>
 		    <div class="form-group col-md-12">
 		      <label for="timing">Option 3:-</label>
-		      <textarea class="form-control" type="text" id="option3" name="option3" ></textarea>
+		      <textarea class="form-control" type="text" id="optionThree" name="optionThree" ></textarea>
 		    </div>
 		    <div class="form-group col-md-12">
 		      <label for="timing">Option 4:-</label>
-		      <textarea class="form-control" type="text" id="option4" name="option4" ></textarea>
+		      <textarea class="form-control" type="text" id="optionFour" name="optionFour" ></textarea>
 		    </div>
 		    <div class="form-group col-md-12">
 		      <label for="timing">Correct Answer:-</label>
@@ -78,9 +83,10 @@
 	var serverUrl 	= 	"<?php echo URL; ?>";
 	$(document).ready(function(){
 		CKEDITOR.replace('questionTitle');
-		CKEDITOR.replace('option2');
-		CKEDITOR.replace('option3');
-		CKEDITOR.replace('option4');
+		CKEDITOR.replace('optionOne');
+		CKEDITOR.replace('optionTwo');
+		CKEDITOR.replace('optionThree');
+		CKEDITOR.replace('optionFour');
 		getExamData();
 	});
 	function getExamData()
@@ -171,7 +177,7 @@
 		            var returnedData= JSON.parse(xhr.responseText);
 		            if(returnedData != '')
 		            {
-		            	$('.questionDetailsDiv').remove();
+		            	
 		            	$('#selectQNo').empty();
 		            	var noOfQuestion = returnedData[0]['no_of_question'];
 		            	
@@ -192,7 +198,7 @@
 		    xhr.send();
 		}
 
-		 $('select').on('change', function() 
+		$('select').on('change', function() 
          {
                 var selectQno   =   $('#selectQNo option:selected').val();
                 var examType 	=   $('#selectExamType option:selected').val();
@@ -203,29 +209,45 @@
                 var xhr1 = new XMLHttpRequest();
 		    	method = 'post',
 		   	 	url = ''+serverUrl+'question/getQuestionData?Qno='+selectQno+'&examType='+examType+'&setNo='+setNo+'&subjectName='+subjectName;
+		   	 	alert(url);
 		    	xhr1.onreadystatechange = function () 
 		    	{
 		        	if (xhr1.readyState === XMLHttpRequest.DONE && xhr1.status === 200)
 		        	{
 		            	var returnedData= JSON.parse(xhr1.responseText);
+		            	console.log(returnedData);
 		            	if(returnedData != '')
 		            	{
 		            		$('#questionTitle').val(returnedData[0]['q_title']);
-		            		$('#option1').val(returnedData[0]['q_option1']);
-		            		$('#option2').val(returnedData[0]['q_option2']);
-		            		$('#option3').val(returnedData[0]['q_option3']);
-		            		$('#option4').val(returnedData[0]['q_option4']);
-		            		$('#correctOption').val(returnedData[0]['correct_option']);
+		            		$('#optionOne').val(returnedData[0]['q_option1']);
+		            		$('#optionTwo').val(returnedData[0]['q_option2']);
+		            		$('#optionThree').val(returnedData[0]['q_option3']);
+		            		$('#optionFour').val(returnedData[0]['q_option4']);
+		            		
+		            		
+		            		CKEDITOR.replace( 'questionTitle' );
+							CKEDITOR.instances['questionTitle'].setData(decodeURIComponent(returnedData[0]['q_title']));
+							CKEDITOR.replace( 'optionOne' );
+							CKEDITOR.instances['optionOne'].setData(decodeURIComponent(returnedData[0]['q_option1']));
+							CKEDITOR.replace( 'optionTwo' );
+							CKEDITOR.instances['optionTwo'].setData(decodeURIComponent(returnedData[0]['q_option2']));
+							CKEDITOR.replace( 'optionThree' );
+							CKEDITOR.instances['optionThree'].setData(decodeURIComponent(returnedData[0]['q_option3']));
+							CKEDITOR.replace( 'optionFour' );
+							CKEDITOR.instances['optionFour'].setData(decodeURIComponent(returnedData[0]['q_option4']));
+							$('#correctOption').val(returnedData[0]['correct_option']);
 		            		$('#submitQuestion').val('Update');
 		            	}
 		            	else
 		            	{
-		            		$('#questionTitle').val('');
-		            		$('#option1').val('');
-		            		$('#option2').val('');
-		            		$('#option3').val('');
-		            		$('#option4').val('');
-		            		$('#correctOption').val('');
+		            		
+		            		CKEDITOR.instances['questionTitle'].setData('');
+		            		CKEDITOR.instances['optionOne'].setData('');
+		            		CKEDITOR.instances['optionTwo'].setData('');
+		            		CKEDITOR.instances['optionThree'].setData('');
+		            		CKEDITOR.instances['optionFour'].setData('');
+		            		$('#correctOption').val('0');
+		            		
 		            		$('#submitQuestion').val('Add Question');
 		            	}
 		            }
@@ -233,8 +255,11 @@
 		        xhr1.open(method, url, true);
 		    	xhr1.send();
              });
-		
+
 	}
+
+
+		
 	function submitBtn()
 	{
 		
@@ -269,12 +294,16 @@
 		{
 		*/	var submitBtnVal = $('#submitQuestion').val();
 			var formData  = $('#questionFrom').serialize();	
-
+			var q_Title 	= 	encodeURIComponent(CKEDITOR.instances["questionTitle"].getData());
+			var option1 	= 	encodeURIComponent(CKEDITOR.instances["optionOne"].getData());
+			var option2 	= 	encodeURIComponent(CKEDITOR.instances["optionTwo"].getData());
+			var option3 	= 	encodeURIComponent(CKEDITOR.instances["optionThree"].getData());
+			var option4 	= 	encodeURIComponent(CKEDITOR.instances["optionFour"].getData());
 			if(submitBtnVal == 'Add Question')
 			{
 				var xhr = new XMLHttpRequest();
 			    method = 'post',
-			    url = ''+serverUrl+'question/addQuestion?'+formData;
+			    url = ''+serverUrl+'question/addQuestion?'+formData+'&Qtitle='+q_Title+'&option1='+option1+'&option2='+option2+'&option3='+option3+'&option4='+option4;
 			    xhr.onreadystatechange = function () 
 			    {
 			        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
@@ -293,5 +322,36 @@
 
 			}
 		/*}*/
+	}
+
+	function uploadQuestionFromExcel()
+	{
+		var selectQno   =   $('#selectQNo option:selected').val();
+        var examType 	=   $('#selectExamType option:selected').val();
+        var examTime 	=   $('#examTime').val();
+        var setNo 	    =   $('#setSelect option:selected').val();
+        var subjectName =   $('#selectSubject option:selected').val();
+		var formdata  = new FormData();   
+      	var countAttchment = document.getElementById('QfromExcel').files.length;
+     	for (var i = 0; i < countAttchment; i++)
+        {
+          formdata.append("files[]", document.getElementById('QfromExcel').files[i]);
+        }
+		var xhr = new XMLHttpRequest();
+	    method = 'post',
+	    url = ''+serverUrl+'question/addQuestionFromExcel?examType='+examType+'&setNo='+setNo+'&subjectName='+subjectName;
+	    xhr.onreadystatechange = function () 
+	    {
+	        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
+	        {
+	            /*var returnedData= JSON.parse(xhr.responseText);
+	            if(returnedData != '')
+	            {
+	            	
+			    }*/
+	        }
+	    }; 
+	    xhr.open(method, url, true);
+	    xhr.send(formdata);	
 	}
 </script>
