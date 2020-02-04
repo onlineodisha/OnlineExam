@@ -19,7 +19,6 @@ class Question_Model extends Model {
 
 	function getQuestionDetailsByParam($param)
 	{
-		
 		return $this->db->select("SELECT * FROM question_table ".$param."");
 	}
 	
