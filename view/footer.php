@@ -1,8 +1,8 @@
 
         <!-- /footer content -->
-      </div>
-    </div> 
 
+    <!-- Bootstrap -->
+    <link href="<?php echo URL;?>public/css/bootstrap.min.css" rel="stylesheet">
     <!-- jQuery -->
     <script src="<?php echo URL;?>public/jquery/jquery.min.js"></script>
     <!-- Bootstrap -->
