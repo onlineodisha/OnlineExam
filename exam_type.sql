@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 26, 2020 at 07:05 AM
+-- Generation Time: Feb 10, 2020 at 05:22 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 5.6.40
 
@@ -58,7 +58,9 @@ INSERT INTO `exam_type` (`id`, `exam_name`, `exam_time`, `subject_name`, `no_of_
 (22, 'SSC1', 120, '', 0, 0, 0, 1, 0, '2020-01-24'),
 (23, 'SSC1', 120, 'Math', 30, 4, 1, 1, 22, '2020-01-24'),
 (24, 'Banking', 180, '', 0, 0, 0, 1, 0, '2020-01-26'),
-(25, 'Banking', 180, 'Math', 30, 4, 1, 1, 24, '2020-01-26');
+(26, 'Banking', 180, 'Math', 10, 4, 1, 1, 24, '2020-02-10'),
+(27, 'Banking', 180, 'English', 10, 3, 1, 1, 24, '2020-02-10'),
+(28, 'Banking', 180, 'Reasoning', 10, 3, 1, 1, 24, '2020-02-10');
 
 --
 -- Indexes for dumped tables
@@ -78,7 +80,7 @@ ALTER TABLE `exam_type`
 -- AUTO_INCREMENT for table `exam_type`
 --
 ALTER TABLE `exam_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
