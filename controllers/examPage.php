@@ -10,7 +10,17 @@
 
 	function index()
 	{
+		$this->view->examQuestions = $this->getQuestionsByExamTypre();
+		$this->view->totalNoOfQuestion	=	$this->totalNoOfQuestion();
 		$this->view->render('examPage/index',true);
 	}
 
+	function getQuestionsByExamTypre()
+	{
+		return $this->model->examQuestionsByExamType();
+	}
+	function totalNoOfQuestion()
+	{
+		return $this->model->totalNoOfQuestion();
+	}
 }

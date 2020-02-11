@@ -7,19 +7,18 @@ class View {
 	}
 	public function render($name, $noInclude = false)
 	{
+		if($name == 'index/index')
+		{
+			require 'view/'.$name.'.php';
+		}
+		else
+		{
+			require 'view/header.php';
+			require 'view/'.$name.'.php';
+			require 'view/footer.php';
+		}
 		
-			if($name == 'index/index')
-			{
-				require 'view/'.$name.'.php';
-			}
-			else
-			{
-				require 'view/header.php';
-				require 'view/'.$name.'.php';
-				require 'view/footer.php';
-			}
-			
-			//}
+		//}
 			
 		
 	}

@@ -8,6 +8,11 @@
 			font-size: 13px;
 			margin-right: 8px;
 		}
+		#totalQuestion span
+		{
+			display: inline-block;
+			margin-bottom: 10px;
+		}
 	</style>
 	<div class="container">
 		<div class="row">
@@ -65,24 +70,22 @@
 			<div class="col-md-7">
 				<div class="row">
 					<div class="col-md-12">
-						<h3>Question 1:</h3><hr>
+						<h3>Question <?php echo $this->examQuestions[0]['q_no']; ?>:</h3><hr>
 					</div>
 					<div class="col-md-12">
-						<p>Which of the following set of statements best describes the nature and objectives of the teaching ?</p>
+						<p><?php echo $this->examQuestions[0]['q_title']; ?></p>
 						<ol type="a">
-						  <li>Teaching and learning are integrally related.</li>
-						  <li>There is no difference between teaching and training.</li>
-						  <li>Concern of all teaching is to ensure some kind of transformation in students</li>
-						  <li>All good teaching is formal in nature</li>
-						  <li>A teacher is a senior person</li>
-						  <li>Teaching is a social act wheareas learning is a personal act.</li>
+						  <li><?php echo $this->examQuestions[0]['q_option1']; ?></li>
+						  <li><?php echo $this->examQuestions[0]['q_option2']; ?></li>
+						  <li><?php echo $this->examQuestions[0]['q_option3']; ?></li>
+						  <li><?php echo $this->examQuestions[0]['q_option4']; ?></li>
 						</ol>
 						<strong>Code:</strong>
 						<ol type="1" id="Qoption">
-							<li>(1)  (a),(b) and (d)  </li>
-							<li>(2)  (b),(c) and (e)   </li>
-							<li>(3)  (a),(c) and (f)   </li>
-							<li>(4)  (d),(e) and (f)   </li>
+							<li><input type="checkbox" name="option">(1)  (a),(b) and (d) </li>
+							<li><input type="checkbox" name="option">(2)  (b),(c) and (e) </li>
+							<li><input type="checkbox" name="option">(3)  (a),(c) and (f) </li>
+							<li><input type="checkbox" name="option">(4)  (d),(e) and (f) </li>
 						</ol>
 						<hr>
 						<div class="btn-group mr-2" role="group" aria-label="First group" id="Qbuttons">
@@ -124,14 +127,10 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-12">
-						<span class="bg-secondary rounded p-3 text-white">01</span>
-						<span class="bg-secondary rounded p-3 text-white">02</span>
-						<span class="bg-secondary rounded p-3 text-white">03</span>
-						<span class="bg-secondary rounded p-3 text-white">04</span>
-						<span class="bg-secondary rounded p-3 text-white">05</span>
-						<span class="bg-secondary rounded p-3 text-white">06</span>
-						<span class="bg-secondary rounded p-3 text-white">07</span>
+					<div class="col-md-12" id="totalQuestion">
+						<?php for($i = 0; $i < $this->totalNoOfQuestion[0]['totalQuestion']; $i++) { ?>
+							<span class="bg-secondary rounded p-3 text-white"><?php if($i < 9){ echo '0';} echo $i+1; ?></span>
+						<?php } ?>
 					</div>
 				</div>
 			</div>
