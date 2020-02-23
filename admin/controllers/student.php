@@ -13,6 +13,10 @@
 		$this->view->render('student/enrollment');
 		}
 
+	function setAssign()
+	{
+		$this->view->render('student/setAssign');
+	}
 	function createStudentEnrollment()
 	{
 
