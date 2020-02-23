@@ -10,13 +10,16 @@
 
 	function index()
 	{
-		$this->view->examQuestions = $this->getQuestionsByExamTypre();
-		$this->view->totalNoOfQuestion	=	$this->totalNoOfQuestion();
+		//$this->view->examQuestions = $this->getQuestionsByExamTypre();
+		//echo "<pre>";print_r($this->view->examQuestions);die;
+		//$this->view->totalNoOfQuestion	=	$this->totalNoOfQuestion();
 		$this->view->render('examPage/index',true);
 	}
 
 	function getQuestionsByExamTypre()
 	{
+		 header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+		$setName = isset($_REQUEST['setName'])?$_REQUEST['setName']:'';
 		return $this->model->examQuestionsByExamType();
 	}
 	function totalNoOfQuestion()
