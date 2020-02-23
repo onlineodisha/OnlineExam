@@ -15,7 +15,6 @@ class Bootstrap {
 		$controller->index();
 		return false;
 		}
-		
 		$file = 'controllers/' . $url[0] . '.php';
 		if (file_exists($file)) {
 			require $file;
@@ -34,7 +33,6 @@ class Bootstrap {
 				$this->error();
 			}
 		} else {
-
 			if (isset($url[1])) {
 				if (method_exists($controller, $url[1])) {
 					$controller->{$url[1]}();

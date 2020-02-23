@@ -1,0 +1,14 @@
+#Qoption li
+{
+	display: inline;
+}
+#Qbuttons button
+{
+	font-size: 13px;
+	margin-right: 8px;
+}
+#totalQuestion span
+{
+	display: inline-block;
+	margin-bottom: 10px;
+}

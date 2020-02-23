@@ -1,19 +1,5 @@
-	<style type="text/css">
-		#Qoption li
-		{
-			display: inline;
-		}
-		#Qbuttons button
-		{
-			font-size: 13px;
-			margin-right: 8px;
-		}
-		#totalQuestion span
-		{
-			display: inline-block;
-			margin-bottom: 10px;
-		}
-	</style>
+
+
 	<div class="container">
 		<div class="row">
 			<div class="col-md-4">
@@ -64,29 +50,43 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4">
+				<label>Select a Set:</label>
+				<select class="form-control" id="sets">
+					<option value="">Select Set</option>
+					<option value="set-1">Set 1</option>
+				</select>
+				<button class="btn btn-primary mt-2" type="button" onclick="examStart()">Start</button>
+			</div>
+		</div>
+	</div>
+<div class="d-none" id="questionDetails">	
 	<!-- Question Section Start -->
 	<div class="container">
 		<div class="row mt-5">
 			<div class="col-md-7">
 				<div class="row">
 					<div class="col-md-12">
-						<h3>Question <?php echo $this->examQuestions[0]['q_no']; ?>:</h3><hr>
+						<h3>Question <span id="qNo"></span>:</h3><hr>
 					</div>
-					<div class="col-md-12">
-						<p><?php echo $this->examQuestions[0]['q_title']; ?></p>
+					<div class="col-md-12" id="qDetail">
+						<!-- <p><?php echo $this->examQuestions[0]['q_title']; ?></p>
 						<ol type="a">
 						  <li><?php echo $this->examQuestions[0]['q_option1']; ?></li>
 						  <li><?php echo $this->examQuestions[0]['q_option2']; ?></li>
 						  <li><?php echo $this->examQuestions[0]['q_option3']; ?></li>
 						  <li><?php echo $this->examQuestions[0]['q_option4']; ?></li>
-						</ol>
-						<strong>Code:</strong>
+						</ol> -->
+						<!-- <strong>Code:</strong>
 						<ol type="1" id="Qoption">
 							<li><input type="checkbox" name="option">(1)  (a),(b) and (d) </li>
 							<li><input type="checkbox" name="option">(2)  (b),(c) and (e) </li>
 							<li><input type="checkbox" name="option">(3)  (a),(c) and (f) </li>
 							<li><input type="checkbox" name="option">(4)  (d),(e) and (f) </li>
-						</ol>
+						</ol> -->
 						<hr>
 						<div class="btn-group mr-2" role="group" aria-label="First group" id="Qbuttons">
 						    <button type="button" class="btn btn-success">SAVE & NEXT</button>
@@ -128,12 +128,15 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12" id="totalQuestion">
-						<?php for($i = 0; $i < $this->totalNoOfQuestion[0]['totalQuestion']; $i++) { ?>
+						<!-- <?php for($i = 0; $i < $this->totalNoOfQuestion[0]['totalQuestion']; $i++) { ?>
 							<span class="bg-secondary rounded p-3 text-white"><?php if($i < 9){ echo '0';} echo $i+1; ?></span>
-						<?php } ?>
+						<?php } ?> -->
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- Question Section End -->
+</div>
+<!-- Question Section End -->
+
+<script src="<?php echo URL;?>public/module_js/examPage.js"></script>
