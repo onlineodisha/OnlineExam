@@ -119,5 +119,28 @@
 			fclose($file);
 		}
 	}
+
+	function getAllSetName()
+	{
+		$getAllName = $this->model->getAllSetName();
+		echo json_encode($getAllName);
+	}
+
+	function showAllExamType()
+	{
+		$showAllExamType	=	$this->model->showAllExamType();
+		echo json_encode($showAllExamType);
+	}
+
+	function showAllSetNoByEtype()
+	{
+		$examType =	isset($_REQUEST['eType']) ? $_REQUEST['eType'] : '';
+		$param = "WHERE (exam_type = '".$examType."' GROUP BY set_no)";
+		$allSetNo	=	$this->model->showAllSetNoExamType($examType);
+		echo json_encode($allSetNo);
+
+	}
+
+
 }
 	

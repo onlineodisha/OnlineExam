@@ -149,17 +149,23 @@
 	{
 		var sets  =   '';
         var setOptions    =   '';
-       
+       	var examName = $('#selectExamType').val();
+
         $('#setSelect').empty();
-        $.getJSON(serverUrl+'public/json/setTypes.json', function(result){
+        for(var i = 1; i <= 50; i++)
+        {
+        	var setName = examName+'-'+i;
+        	 setOptions    =  '<option value="'+setName+'">'+setName+'</option>';
+             $('#setSelect').append(setOptions);
+        }
+       /* $.getJSON(serverUrl+'public/json/setTypes.json', function(result){
             $.each(result, function(setCode, setName){
 
                 setOptions    =  '<option value="'+setName+'">'+setName+'</option>';
                 $('#setSelect').append(setOptions);
             });
             
-        });
-       
+        });*/ 
 	}
 	function getSubjectDetails()
 	{

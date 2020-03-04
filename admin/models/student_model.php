@@ -32,6 +32,21 @@ class Student_Model extends Model {
 	{
 		$this->db->delete('student_details', "`id` = {$id}");
 	}
+
+	function showAllExamType()
+	{
+		return $this->db->select("SELECT * FROM question_table GROUP BY exam_type");
+	}
 	
+	function assignSetData($data)
+	{
+		echo "<pre>"; print_r($data);
+		return $this->db->insert('set_assign', $data);
+	}
+
+	function getAllAssignSet()
+	{
+		return $this->db->select("SELECT * FROM set_assign");
+	}
 
 }

@@ -90,5 +90,35 @@
 		$this->model->deleteStudentDetails($id);
 	}
 
+	function showAllExamType()
+	{
+		$showAllExamType	=	$this->model->showAllExamType();
+		echo json_encode($showAllExamType);
+	}
+
+	function getAllSetName()
+	{
+		$allSetDetails = $this->model->getAllStudentDetails();
+	}
 	
+	function assignSet()
+	{
+		$sId        =	isset($_REQUEST['studentId'])?$_REQUEST['studentId']:'';
+		$sName      =	isset($_REQUEST['studentName'])?$_REQUEST['studentName']:'';
+		$selectSet  =	isset($_REQUEST['selectSet'])?$_REQUEST['selectSet']:'';
+		$examType   =	isset($_REQUEST['selectExamType'])?$_REQUEST['selectExamType']:'';
+		$date =	date('Y-m-d');
+
+		$assignSetData	=	array('student_name' => $sName, 'exam_type' => $examType, 'set_no' => $selectSet, 'created_date' => $date, 'student_id' => $sId );
+		$setAssignData = $this->model->assignSetData($assignSetData);
+	
+		/*$allAssignSet = $this->model->getAllAssignSet();
+		echo json_encode($allAssignSet); */
+	}
+
+	function allAssignSet()
+	{
+		$allAssignDetails	=	$this->model->getAllAssignSet();
+        echo json_encode($allAssignDetails);
+	}
 }
