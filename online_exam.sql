@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 04, 2020 at 06:10 PM
+-- Generation Time: Mar 04, 2020 at 06:32 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 5.6.40
 
@@ -188,7 +188,8 @@ CREATE TABLE `set_assign` (
 --
 
 INSERT INTO `set_assign` (`id`, `student_name`, `exam_type`, `set_no`, `date`, `student_id`, `is_active`) VALUES
-(1, 'Santosh Ku Dwibedy', 'Banking', 'Banking-1', '2020-03-04', 2, 0);
+(1, 'Santosh Ku Dwibedy', 'Banking', 'Banking-1', '2020-03-04', 2, 1),
+(2, 'Niranjan Behera', 'Banking', 'Banking-1', '2020-03-04', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -328,7 +329,7 @@ ALTER TABLE `question_table`
 -- AUTO_INCREMENT for table `set_assign`
 --
 ALTER TABLE `set_assign`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `student_details`
