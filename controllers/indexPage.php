@@ -14,8 +14,23 @@
 		$this->view->render('index/index',true);
 	}
 
-	 function run()
-	{	
+	function instructions()
+	{
+		$this->view->render('index/instructions',true);
+	}
+
+	function instructionsNext()
+	{
+		$userId = isset($_SESSION['id'])?$_SESSION['id']:'';
+		if($userId != '')
+		{
+			$this->view->examSet = $this->model->getAllSetById($userId);
+		}
+		$this->view->render('index/instructionsNext',true);
+	}
+
+	function run()
+	{
 		$this->model->run();
 		
 	}

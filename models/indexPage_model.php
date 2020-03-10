@@ -25,13 +25,18 @@ class IndexPage_Model extends Model {
 			Session::set('username', $res[0]['username']);
 			Session::set('password', $res[0]['password']);
 			Session::set('email', $res[0]['email']);
-			header('location: '.URL.'examPage');
+			header('location: '.URL.'indexPage/instructions');
 		} 
 	   else 
 	   {
 		Session::set('loggedIn', false);
 		header('location: '.URL);
 		}
+	}
+
+	function getAllSetById($sId)
+	{
+		return $this->db->select("SELECT * FROM set_assign WHERE student_id = ".$sId." AND is_active = 1 ");
 	}
 
 }

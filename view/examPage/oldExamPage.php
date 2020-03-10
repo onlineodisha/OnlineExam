@@ -145,34 +145,19 @@
 <!-- <script src="<?php echo URL;?>public/module_js/examPage.js"></script> -->
 <script type="text/javascript">
 var serverUrl 	= 	"<?php echo URL; ?>";
-var defaultSubject = "<?php echo $this->subjectList[0]['subject']; ?>";
+var defaultSubject = "<?php echo $this->subjectList; ?>";
 $(document).ready(function(){
-
+		
  if(defaultSubject != '')
  {
- 	$('#'+defaultSubject).trigger('click');
+
  }
 
 });
 function getDataBySubject(subjectName)
 {
-	var xhr = new XMLHttpRequest();
-    method = 'post',
-    url = ''+serverUrl+'examPage/getExamDataBySubject?subjectName='+subjectName;
-    xhr.onreadystatechange = function () 
-    {
-        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
-        {
-            var returnedData= JSON.parse(xhr.responseText);
-            console.log(returnedData);
-            if(returnedData != '')
-            {
-            	
-            }  
-        }
-    }; 
-    xhr.open(method, url, true);
-    xhr.send();	
+	
+
 }
 function examStart()
 {

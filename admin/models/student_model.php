@@ -40,7 +40,6 @@ class Student_Model extends Model {
 	
 	function assignSetData($data)
 	{
-		echo "<pre>"; print_r($data);
 		return $this->db->insert('set_assign', $data);
 	}
 

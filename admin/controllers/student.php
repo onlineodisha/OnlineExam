@@ -109,11 +109,11 @@
 		$examType   =	isset($_REQUEST['selectExamType'])?$_REQUEST['selectExamType']:'';
 		$date =	date('Y-m-d');
 
-		$assignSetData	=	array('student_name' => $sName, 'exam_type' => $examType, 'set_no' => $selectSet, 'created_date' => $date, 'student_id' => $sId );
+		$assignSetData	=	array('student_name' => $sName, 'exam_type' => $examType, 'set_no' => $selectSet, 'date' => $date, 'student_id' => $sId );
 		$setAssignData = $this->model->assignSetData($assignSetData);
 	
-		/*$allAssignSet = $this->model->getAllAssignSet();
-		echo json_encode($allAssignSet); */
+		$allAssignSet = $this->model->getAllAssignSet();
+		echo json_encode($allAssignSet); 
 	}
 
 	function allAssignSet()

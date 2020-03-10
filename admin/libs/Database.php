@@ -45,7 +45,6 @@ class Database extends PDO
 		}
 		
 		$sth->execute();
-
 		return $this->lastInsertId();
 	}
 	

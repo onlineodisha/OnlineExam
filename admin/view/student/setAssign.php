@@ -272,7 +272,6 @@ function setAssign()
           var xhr = new XMLHttpRequest();
           method = 'post',
           url = ''+serverUrl+'student/assignSet?'+assignSetFrmData;
-          alert(url);
           xhr.onreadystatechange = function () 
           {
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)

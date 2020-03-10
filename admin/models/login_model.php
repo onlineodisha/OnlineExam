@@ -24,7 +24,7 @@ class Login_Model extends Model {
 			Session::set('username', $res[0]['username']);
 			Session::set('password', $res[0]['password']);
 			Session::set('email', $res[0]['email']);
-			header('location: '.URL.'dashboard');
+			header('location: '.URL.'index/instructions');
 		} 
 	   else 
 	   {
