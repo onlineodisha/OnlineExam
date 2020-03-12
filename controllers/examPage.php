@@ -23,6 +23,11 @@
 						  'set_no'=> $setNo,
 						  'subject'=> $this->allTempExamData[$i]['subject'],
 						  'q_no'=> $this->allTempExamData[$i]['q_no'],
+						  'temp_qtitle' => $this->allTempExamData[$i]['q_title'],
+						  'temp_opt1' => $this->allTempExamData[$i]['q_option1'],
+						  'temp_opt2' => $this->allTempExamData[$i]['q_option2'],
+						  'temp_opt3' => $this->allTempExamData[$i]['q_option3'],
+						  'temp_opt4' => $this->allTempExamData[$i]['q_option4'],
 						  'correct_option'=> $this->allTempExamData[$i]['correct_option'],
 						  'exam_date'=> Date('Y-m-d')
 
