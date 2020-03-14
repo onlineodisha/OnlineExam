@@ -146,16 +146,17 @@
 <script type="text/javascript">
 var serverUrl 	= 	"<?php echo URL; ?>";
 var defaultSubject = "<?php echo $this->subjectList[0]['subject']; ?>";
+var demoTest	=	"";
 $(document).ready(function(){
 
  if(defaultSubject != '')
  {
  	$('#'+defaultSubject).trigger('click');
  }
-
 });
 function getDataBySubject(subjectName)
 {
+	var demoTest	=	[];
 	var xhr = new XMLHttpRequest();
     method = 'post',
     url = ''+serverUrl+'examPage/getExamDataBySubject?subjectName='+subjectName;
@@ -164,10 +165,15 @@ function getDataBySubject(subjectName)
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
         {
             var returnedData= JSON.parse(xhr.responseText);
-            console.log(returnedData);
+            /*demoTest = Object.keys(returnedData).map(function (key) { 
+	        return [Number(key), returnedData[key]]; 
+	    	}); */
             if(returnedData != '')
             {
-            	
+				for(var i = 0; i < returnedData.length; i++)            	
+				{
+					demoTest[i] = returnedData[i];
+				}
             }  
         }
     }; 

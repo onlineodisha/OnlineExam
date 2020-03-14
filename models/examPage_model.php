@@ -38,6 +38,6 @@ class ExamPage_Model extends Model {
 
 	function getExamDataByParam($param)
 	{
-		return $this->db->select("SELECT * FROM `exam_temp`");
+		return $this->db->select("SELECT * FROM `exam_temp` ".$param."");
 	}
 }

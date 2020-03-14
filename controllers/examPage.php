@@ -67,7 +67,7 @@
 		$param = '';
 		if($subjectName != '')
 		{
-			$param = "WHERE subject= '".$subjectName."'";
+			$param = "WHERE subject= '".$subjectName."' AND status = 1 ORDER BY id ASC LIMIT 1";
 		}
 		$examDataBySubjectName = $this->model->getExamDataByParam($param);
 		echo json_encode($examDataBySubjectName);
