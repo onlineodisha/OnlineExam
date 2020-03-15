@@ -36,8 +36,27 @@ class ExamPage_Model extends Model {
 		return $this->db->insert('exam_temp',$data);
 	}
 
-	function getExamDataByParam($param)
+	function getExamDataByParam($param='')
 	{
 		return $this->db->select("SELECT * FROM `exam_temp` ".$param."");
+	}
+	function getTempExamCoundDataByParam($param='')
+	{
+		return $this->db->select("SELECT COUNT(id) AS total, selected_btn FROM `exam_temp` ".$param."");
+	}
+	function getTotalQuestion($setNo,$subject)
+	{
+		return $this->db->select("SELECT * FROM exam_temp WHERE set_no = '".$setNo."' AND subject = '".$subject."'");
+	}
+
+	function getExamTime($examType)
+	{
+	
+		return $this->db->select("SELECT * FROM `exam_type` WHERE exam_name = '".$examType."' AND exam_type_id = 0");
+	}
+	function updateExamTemp($data,$id)
+	{
+		$this->db->update('exam_temp', $data,
+			"`id` = $id");
 	}
 }

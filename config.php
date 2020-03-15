@@ -1,5 +1,5 @@
 <?php
-error_reporting(E_ALL); 
+error_reporting(0); 
 define('DB_TYPE', 'mysql');
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'online_exam');
