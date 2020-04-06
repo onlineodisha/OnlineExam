@@ -1,3 +1,22 @@
+<style type="text/css">
+	.bg-gray-white{
+		background-color: #a7a7a8;
+		color: 	#000000;
+	}
+	.bg-gray{
+		background-color: #a7a7a8 !important;
+	}
+	.bg-marked-review{
+		background-color: #3679f5;
+		border-radius: 50% !important;
+	}
+	.bg-answere-marked{
+		background-color: #3679f5;
+		border-radius: 50% !important;
+		content: "-";	
+	}
+</style>	
+
 	<div class="container">
 		<div class="row">
 			<div class="col-md-4">
@@ -118,7 +137,7 @@
 			<div class="col-md-5 mt-4">
 				<div class="row">
 					<div class="col-md-6">
-						<span class="bg-light rounded p-2 text-white" id="notVisited">0</span><span> Not Visited</span>
+						<span class="bg-gray-white rounded p-2 text-dark" id="notVisited">0</span><span> Not Visited</span>
 					</div>
 					<div class="col-md-6">
 						<span class="bg-danger rounded p-2 text-white" id="notAnswered">0</span><span> Not Answere</span>
@@ -129,12 +148,12 @@
 						<span class="bg-success rounded p-2 text-white" id="answered">0</span><span> Answere</span>
 					</div>
 					<div class="col-md-6">
-						<span class="bg-secondary rounded p-2 text-white" id="markForReview">0</span><span> Marked for Review</span>
+						<span class="bg-marked-review p-2 text-white" id="markForReview">0</span><span> Marked for Review</span>
 					</div>
 				</div>
 				<div class="row mt-4 mb-5">
 					<div class="col-md-12 m">
-						<span class="bg-secondary rounded p-2 text-white" id="ansAndMarked">0</span><span> Answere & Marked for Review (will be considered for evaluation</span>
+						<span class="bg-answere-marked p-2 text-white" id="ansAndMarked">0</span><span> Answere & Marked for Review (will be considered for evaluation</span>
 					</div>
 				</div>
 				<div class="row">
@@ -164,12 +183,9 @@ $(document).ready(function(){
  {
  	$('#'+defaultSubject).trigger('click');
  }
- updataeBtnInfo();
 });
 function getDataByid(id)
 {
-	$('#btnId'+id).removeClass('btn btn-light');
-	$('#btnId'+id).addClass('btn btn-danger');
 	var demoTest	=	[];
 	var xhr = new XMLHttpRequest();
     method = 'post',
@@ -182,7 +198,10 @@ function getDataByid(id)
             if(returnedData != '')
             {
             	showQuestionDetails(returnedData);
-
+            	var subjectName = "'"+returnedData[0]['subject']+"'";
+            	var setNo       = "'"+returnedData[0]['set_no']+"'";
+            	getAllquestion(returnedData[0]['subject'],returnedData[0]['set_no']);
+            	updataeBtnInfo(returnedData[0]['subject'],returnedData[0]['set_no']);
             }	
               
         }
@@ -194,6 +213,7 @@ function getDataBySubject(subjectName)
 {
 	//var sName 	=	"'"+subjectName+"'";
 	//var sNo 	=	"'"+setNo+"'";
+	updataeBtnInfo(subjectName,setNo);
 	getAllquestion(subjectName,setNo);
 	var demoTest	=	[];
 	var xhr = new XMLHttpRequest();
@@ -222,12 +242,23 @@ function showQuestionDetails(returnedData)
 	{
 		questionDetails += '<h3 id="qNO">Question:<span>'+returnedData[i]['q_no']+'</span></h3><hr>';
 		questionDetails += '<p id="questionTitle">'+returnedData[i]['temp_qtitle']+'</p>';
-		questionDetails += '<input type="radio" name="option" value="1"><label>&nbsp;'+returnedData[i]['temp_opt1']+'</label><br>';
-		questionDetails += '<input type="radio" name="option" value="2"><label>&nbsp;'+returnedData[i]['temp_opt2']+'</label><br>';
-		questionDetails += '<input type="radio" name="option" value="3"><label>&nbsp;'+returnedData[i]['temp_opt3']+'</label><br>';
-		questionDetails += '<input type="radio" name="option" value="4"><label>&nbsp;'+returnedData[i]['temp_opt4']+'</label><br>';
+		questionDetails += '<input type="radio" name="option" value="1" ';
+		if(returnedData[i]['selected_option'] == 1)
+			questionDetails += 'checked';
+		questionDetails += '><label>&nbsp;'+returnedData[i]['temp_opt1']+'</label><br>';
+		questionDetails += '<input type="radio" name="option" value="2" ';
+		if(returnedData[i]['selected_option'] == 2)
+			questionDetails += 'checked';
+		questionDetails += '><label>&nbsp;'+returnedData[i]['temp_opt2']+'</label><br>';
+		questionDetails += '<input type="radio" name="option" value="3" ';
+		if(returnedData[i]['selected_option'] == 3)
+			questionDetails += 'checked';
+		questionDetails += '><label>&nbsp;'+returnedData[i]['temp_opt3']+'</label><br>';
+		questionDetails += '<input type="radio" name="option" value="4" ';
+		if(returnedData[i]['selected_option'] == 4)
+			questionDetails += 'checked';
+		questionDetails += '><label>&nbsp;'+returnedData[i]['temp_opt4']+'</label><br>';
 		$('#ID').val(returnedData[i]['id']);
-		$('#btnId'+returnedData[i]['id']).addClass('bg-danger');
 	}
 	$('#questionInfo').html(questionDetails);
 }
@@ -247,7 +278,18 @@ function getAllquestion(subject,set)
             	for(var i = 0; i < returnedData.length; i++)            	
         		{
         			var j = i+1
-        			questionText += '<span class="btn btn-light" style="margin-right: 4px;" onclick="getDataByid('+returnedData[i]['id']+')" id="btnId'+returnedData[i]['id']+'">'+j+'</span>';
+        			questionText += '<span class="btn ';
+        			if(returnedData[i]['selected_btn'] == 'Save')
+        				questionText += 'btn-success';
+        			if(returnedData[i]['selected_btn'] == 'MarkForView')
+        				questionText += 'btn-warning';
+        			if(returnedData[i]['selected_btn'] == 'MarkForReview')
+        				questionText += 'btn-primary';
+        			if(returnedData[i]['selected_btn'] == 'NotAnswere')
+        				questionText += 'btn-danger';
+        			if(returnedData[i]['selected_btn'] == 'NotVisited')
+        				questionText += 'bg-gray';
+        			questionText += '"style="margin-right: 4px;" onclick="getDataByid('+returnedData[i]['id']+')" id="btnId'+returnedData[i]['id']+'">'+j+'</span>';
         		}
         		$('#totalQuestion').html(questionText);		
             }  
@@ -285,32 +327,39 @@ function buttonOperation(btnVal)
 	var subject 	= 	$('#subject').val();
 	if(btnVal != '')
 	{
-		//
-		var xhr = new XMLHttpRequest();
-	    method = 'get',
-	    url = ''+serverUrl+'examPage/updateQA?ID='+ID+'&option='+radioVal+'&btnVal='+btnVal+'&subject='+subject;
-	    xhr.onreadystatechange = function () 
-	    {
-	        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
-	        {
-	            var returnedData= JSON.parse(xhr.responseText);
-	            if(returnedData != '')
-	            {
-	            	showQuestionDetails(returnedData);
-	            }  
-	        }
-	    }; 
-	    xhr.open(method, url, true);
-	    xhr.send();	
-		//
+		if(btnVal == 'MarkForView' && radioVal == undefined)
+			return false;
+		else
+		{
+			var xhr = new XMLHttpRequest();
+		    method = 'get',
+		    url = ''+serverUrl+'examPage/updateQA?ID='+ID+'&option='+radioVal+'&btnVal='+btnVal+'&subject='+subject;
+		    xhr.onreadystatechange = function () 
+		    {
+		        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
+		        {
+		            var returnedData= JSON.parse(xhr.responseText);
+		            if(returnedData != '')
+		            {
+		            	var subjectName = "'"+returnedData[0]['subject']+"'";
+		            	var setNo       = "'"+returnedData[0]['set_no']+"'";
+		            	showQuestionDetails(returnedData);
+		            	updataeBtnInfo(returnedData[0]['subject'],returnedData[0]['set_no']);
+		            	getAllquestion(returnedData[0]['subject'],returnedData[0]['set_no']);
+		            }  
+		        }
+		    }; 
+		    xhr.open(method, url, true);
+		    xhr.send();	
+		}
 	}
 }
 //This function is used to update button info such as:- Not Visited, Not Answere, Answere,....
-function updataeBtnInfo()
+function updataeBtnInfo(subject,setNo)
 {
 	var xhr = new XMLHttpRequest();
     method = 'get',
-    url = ''+serverUrl+'examPage/getAllTempExamCountData?setNo='+setNo;
+    url = ''+serverUrl+'examPage/getAllTempExamCountData?subject='+subject+'&setNo='+setNo;
     xhr.onreadystatechange = function () 
     {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
@@ -318,13 +367,26 @@ function updataeBtnInfo()
             var returnedData= JSON.parse(xhr.responseText);
             if(returnedData != '')
             {
-            	console.log(returnedData);
+            	var ClearResponseVal = 0;
+        		var NotAnswereVal = 0;
+        		var totalNotAnsVal = 0;
             	for(var i = 0; i < returnedData.length; i++)
             	{
-	            	if(returnedData[i]['selected_btn'] == 'notVisited')	
+            		
+	            	if(returnedData[i]['selected_btn'] == 'NotVisited')	
 	            		$('#notVisited').text(returnedData[i]['total'])
 	            	if(returnedData[i]['selected_btn'] == 'ClearResponse')
-	            		$('#notAnswered').text(returnedData[i]['total']);
+	            		ClearResponseVal = parseInt(returnedData[i]['total']);
+	            	if(returnedData[i]['selected_btn'] == 'NotAnswere')
+	            		NotAnswereVal = parseInt(returnedData[i]['total']);
+
+	            	totalNotAnsVal = ClearResponseVal+NotAnswereVal;	
+	            	$('#notAnswered').text(totalNotAnsVal);
+	            	/*{
+	            		var notAnsVal 	= 	parseInt($('#notAnswered').text());
+	            		var total  		=	parseInt(returnedData[i]['total'])+notAnsVal;
+	            		$('#notAnswered').text(total);
+	            	}*/
 	            	if(returnedData[i]['selected_btn'] == 'Save')
 	            		$('#answered').text(returnedData[i]['total']);
 	            	if(returnedData[i]['selected_btn'] == 'MarkForReview')

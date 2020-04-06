@@ -93,6 +93,8 @@
 		$param 	= '';
 		if($ID != '')
 		{
+			$updateTableDate 	=	array('selected_btn' => 'NotAnswere');
+			$updateExamData = $this->model->updateExamTemp($updateTableDate,$ID);
 			$param = "WHERE id = ".$ID."";
 			$examDataBySubjectName = $this->model->getExamDataByParam($param);
 			echo json_encode($examDataBySubjectName);
@@ -117,6 +119,11 @@
 			$QAdata = '';
 			if($radioVal != 'undefined')
 			{
+				if($btnVal == 'ClearResponse')
+				{
+					$btnVal 	= 	'NotAnswere';
+					$radioVal 	= 	0;
+				}
 				$QAdata = array(
 							'selected_option' 	=> 	$radioVal,
 							'selected_btn' 		=>	$btnVal,
@@ -124,6 +131,8 @@
 						  );
 			}else
 			{
+				if($btnVal == 'Save')
+					$btnVal = 'NotAnswere';
 				$QAdata = array(
 							'selected_btn' 		=>	$btnVal,
 							'status'			=>	0,	
@@ -140,10 +149,11 @@
 	}
 	function getAllTempExamCountData()
 	{
-		$setNo = isset($_REQUEST['setNo'])?$_REQUEST['setNo']:'';
-		if($setNo != '')
+		$setNo 		= 	isset($_REQUEST['setNo'])?$_REQUEST['setNo']:'';
+		$subject 	=	isset($_REQUEST['subject'])?$_REQUEST['subject']:'';
+		if($setNo != '' && $subject != '')
 		{
-			$param = "WHERE set_no = '".$setNo."' GROUP BY selected_btn";
+			$param = "WHERE set_no = '".$setNo."' AND subject = '".$subject."' GROUP BY selected_btn";
 			$examDataBySubjectName = $this->model->getTempExamCoundDataByParam($param);
 			echo json_encode($examDataBySubjectName);			
 		}
