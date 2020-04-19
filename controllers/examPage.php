@@ -93,12 +93,30 @@
 		$param 	= '';
 		if($ID != '')
 		{
+			$param = "WHERE id = ".$ID."";
+			$examDataBySubjectName = $this->model->getExamDataByParam($param);
+
+			if($examDataBySubjectName[0]['selected_btn'] == 'notVisited' || $examDataBySubjectName[0]['selected_btn'] == 'ClearResponse')
+			{
+				$updateTableDate 	=	array('selected_btn' => 'NotAnswere');
+			}
+			else 
+			{
+
+			}
+			$updateExamData = $this->model->updateExamTemp($updateTableDate,$ID);
+			$examData = $this->model->getExamDataByParam($param);
+			echo json_encode($examData);
+		}
+		
+		/*if($ID != '')
+		{
 			$updateTableDate 	=	array('selected_btn' => 'NotAnswere');
 			$updateExamData = $this->model->updateExamTemp($updateTableDate,$ID);
 			$param = "WHERE id = ".$ID."";
 			$examDataBySubjectName = $this->model->getExamDataByParam($param);
 			echo json_encode($examDataBySubjectName);
-		}
+		}*/
 	}
 	function getAllquestion()
 	{
@@ -118,6 +136,100 @@
 		{
 			$QAdata = '';
 			if($radioVal != 'undefined')
+			{
+				/*if($btnVal == 'ClearResponse')
+				{
+					$btnVal 	= 	'NotAnswere';
+					$radioVal 	= 	0;
+				}
+				$QAdata = array(
+							'selected_option' 	=> 	$radioVal,
+							'selected_btn' 		=>	$btnVal,
+							'status'			=>	0,	
+						  );
+			
+				else
+				{*/
+					if($btnVal == 'Save')
+					{
+
+					
+						//$btnVal = 'NotAnswere';
+							$QAdata = array(
+									'selected_option' 	=> 	$radioVal,
+									'selected_btn' 		=>	$btnVal,
+									'status'			=>	1,	
+								  );
+					
+							$updateExamData = $this->model->updateExamTemp($QAdata,$ID);
+							$param = "WHERE id = ".$ID."";
+							$examDataByid = $this->model->getExamDataByParam($param);
+						if($examDataByid[0]['id'] != '')
+						{
+							$nextQuestionID = $examDataByid[0]['id'] + 1;
+							$param = "WHERE id = ".$nextQuestionID."";
+							$nextQData = $this->model->getExamDataByParam($param);
+							if($nextQData[0]['selected_btn'] == 'notVisited' || $nextQData[0]['selected_btn'] == 'NotAnswere' || $nextQData[0]['selected_btn'] == 'MarkForReview')
+							{
+								$nextQData = array(
+										'selected_btn' 		=>	'NotAnswere',
+								);
+							}
+							else if($nextQData[0]['selected_btn'] == 'Save' || $nextQData[0]['selected_btn'] == 'MarkForView')
+							{
+								$nextQData = array(
+										'selected_btn' 		=>	'Save',
+								);
+							}
+							else
+							{
+
+							}
+							$updateNextQData = $this->model->updateExamTemp($nextQData,$nextQuestionID);
+						}
+					}
+			}
+			else
+			{
+				if($btnVal == 'Save')
+				{
+					$param = "WHERE id = ".$ID."";
+					$examDataByid = $this->model->getExamDataByParam($param);
+					if($examDataByid[0]['id'] != '')
+					{
+						$nextQuestionID = $examDataByid[0]['id'] + 1;
+						$param = "WHERE id = ".$nextQuestionID."";
+						$nextQData = $this->model->getExamDataByParam($param);
+						if($nextQData[0]['selected_btn'] == 'notVisited' || $nextQData[0]['selected_btn'] == 'NotAnswere' || $nextQData[0]['selected_btn'] == 'MarkForReview')
+						{
+							$nextQData = array(
+									'selected_btn' 		=>	'NotAnswere',
+							);
+						}
+						/*else if($nextQData[0]['selected_btn'] == 'Save' || $nextQData[0]['selected_btn'] == 'MarkForView')
+						{
+							$nextQData = array(
+									'selected_btn' 		=>	'Save',
+							);
+						}
+						else
+						{
+
+						}*/
+						$updateNextQData = $this->model->updateExamTemp($nextQData,$nextQuestionID);
+					}
+				}
+
+			}
+			if($subject != '')
+			{
+				$param = "WHERE subject= '".$subject."' AND status = 1 ORDER BY id ASC LIMIT 1";
+				//$param = "WHERE subject= '".$subject."' ORDER BY id ASC LIMIT 1";
+				$examDataBySubjectName = $this->model->getExamDataByParam($param);
+				echo json_encode($examDataBySubjectName);	
+			}
+		
+			/*if($radioVal != 'undefined')
 			{
 				if($btnVal == 'ClearResponse')
 				{
@@ -144,7 +256,7 @@
 				$param = "WHERE subject= '".$subject."' AND status = 1 ORDER BY id ASC LIMIT 1";
 				$examDataBySubjectName = $this->model->getExamDataByParam($param);
 				echo json_encode($examDataBySubjectName);	
-			}
+			}*/
 		}
 	}
 	function getAllTempExamCountData()

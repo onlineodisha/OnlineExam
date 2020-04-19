@@ -47,7 +47,8 @@ class ExamPage_Model extends Model {
 	}
 	function getTotalQuestion($setNo,$subject)
 	{
-		return $this->db->select("SELECT * FROM exam_temp WHERE set_no = '".$setNo."' AND subject = '".$subject."'");
+		
+		return $this->db->select("SELECT * FROM exam_temp WHERE set_no = '".$setNo."' AND subject = '".$subject."' ORDER BY q_no ASC ");
 	}
 
 	function getExamTime($examType)

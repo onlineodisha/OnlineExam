@@ -11,7 +11,7 @@
 		border-radius: 50% !important;
 	}
 	.bg-answere-marked{
-		background-color: #3679f5;
+		background-color: #ffc107;
 		border-radius: 50% !important;
 		content: "-";	
 	}
@@ -66,10 +66,19 @@
 	</div>
 	<div class="container-fluid bg-warning">
 		<div class="row">
-			<div class="col-md-12 col-sm-12 col-lg-12 p-2">
-				<!-- <a href="<?php echo URL; ?>index/logout">Logout</a> -->
-				<button type="button" class="btn btn-info float-right"><span class="glyphicon glyphicon-download-alt"></span> DOWNLOAD QUESTION</button>
+			<!-- <div class="col-md-12 col-sm-12 col-lg-12 p-2"> -->
+			<div class="col-md-1"></div>
+			<div class="col-md-8 p-2">
+				<?php for($i=0; $i<count($this->subjectList); $i++) { ?>
+				<button type="button" class="btn btn-info" name="" id="<?php echo $this->subjectList[$i]['subject']; ?>" onclick="getDataBySubject('<?php echo $this->subjectList[$i]['subject']; ?>')"><?php echo $this->subjectList[$i]['subject']; ?></button>
+	
+				<?php } ?>
 			</div>
+			<div class="col-md-3 p-2">
+				<!-- <a href="<?php echo URL; ?>index/logout">Logout</a> -->
+				<button type="button" class="btn btn-info float-right mr-2"><span class="glyphicon glyphicon-download-alt"></span> DOWNLOAD QUESTION</button>
+			</div>
+			
 		</div>
 	</div>
 
@@ -85,67 +94,46 @@
 			</div>
 		</div>
 	</div> -->
-<div class="" id="questionDetails">
-<div class="col-md-6">
-	<?php for($i=0; $i<count($this->subjectList); $i++) { ?>
-	<button type="button" class="btn btn-primary" name="" id="<?php echo $this->subjectList[$i]['subject']; ?>" onclick="getDataBySubject('<?php echo $this->subjectList[$i]['subject']; ?>')"><?php echo $this->subjectList[$i]['subject']; ?></button>
-	
-<?php } ?>
-</div>	
+<div class="" id="questionDetails">	
 	<!-- Question Section Start -->
-	<div class="container">
-		<div class="row mt-5">
-			<div class="col-md-7">
-				<div class="row">
-					<div class="col-md-12">
-						<div class="" id="questionInfo">
-							<!-- <h3 id="qNO"></h3><hr>
+	<div class="container-fluid">
+		<div class="row mt-2 ml-4 mr-2 ">
+			<div class="col-md-9 border border-dark">
+				<div class="col-md-12">
+					<div class="" id="questionInfo">
+						<!-- <h3 id="qNO"></h3><hr>
+						<input type="radio" name="option" value=""><label>(a),(b) and (d)</label>
+						<input type="radio" name="option" value=""><label>(b),(c) and (e)</label>
+						<input type="radio" name="option" value=""><label>(a),(c) and (f)</label>
+						<input type="radio" name="option" value=""><label>(d),(e) and (f)</label> -->
+					</div>
+					<!-- <form name="questionAndAnswere" id="questionAndAnswere">
+						<div class="" id="qInfo">
+						</div>
+						<div class="" id="qHiddenSection">
+						</div> -->
+						<!-- <h3>Question <span id="qNo"></span>:</h3><hr>
+						<strong>Code:</strong>
 							<input type="radio" name="option" value=""><label>(a),(b) and (d)</label>
 							<input type="radio" name="option" value=""><label>(b),(c) and (e)</label>
 							<input type="radio" name="option" value=""><label>(a),(c) and (f)</label>
-							<input type="radio" name="option" value=""><label>(d),(e) and (f)</label> -->
-						</div>
-						<!-- <form name="questionAndAnswere" id="questionAndAnswere">
-							<div class="" id="qInfo">
-							</div>
-							<div class="" id="qHiddenSection">
-							</div> -->
-							<!-- <h3>Question <span id="qNo"></span>:</h3><hr>
-							<strong>Code:</strong>
-								<input type="radio" name="option" value=""><label>(a),(b) and (d)</label>
-								<input type="radio" name="option" value=""><label>(b),(c) and (e)</label>
-								<input type="radio" name="option" value=""><label>(a),(c) and (f)</label>
-								<input type="radio" name="option" value=""><label>(d),(e) and (f)</label>  -->
-						<!-- </form> -->
-						<hr>
-						<input type="hidden" name="ID" id="ID" value="">
-						<input type="hidden" name="subject" id="subject" value="">
-						<div class="btn-group mr-2" role="group" aria-label="First group" id="Qbuttons">
-						    <button type="button" class="btn btn-success" onclick="buttonOperation('Save')">SAVE & NEXT</button>
-						    <button type="button" class="btn btn-warning" onclick="buttonOperation('MarkForView')">SAVE & MARK FOR VIEW</button>
-						    <button type="button" class="btn btn-light" onclick="buttonOperation('ClearResponse')">CLEAR RESPONSE</button>
-						    <button type="button" class="btn btn-primary" onclick="buttonOperation('MarkForReview')">MARK FOR REVIEW & NEXT</button>
-					  	</div>
-					  	<div class="btn-group mr-2" role="group" aria-label="First group">
-							<button type="button" class="btn btn-light" onclick="buttonOperation('Back')"><span class="glyphicon glyphicon-backward"></span> BACK</button>
-							<button type="button" class="btn btn-light" onclick="buttonOperation('Next')">NEXT <span class="glyphicon glyphicon-forward"></span></button>
-						</div>
-						<button type="button" class="btn btn-success pull-right">SUBMIT</button>
-					</div>
+							<input type="radio" name="option" value=""><label>(d),(e) and (f)</label>  -->
+					<!-- </form> -->
+					
 				</div>
 			</div>
-			<div class="col-md-5 mt-4">
+			<div class="col-md-3 border border-dark">
 				<div class="row">
 					<div class="col-md-6">
 						<span class="bg-gray-white rounded p-2 text-dark" id="notVisited">0</span><span> Not Visited</span>
 					</div>
 					<div class="col-md-6">
-						<span class="bg-danger rounded p-2 text-white" id="notAnswered">0</span><span> Not Answere</span>
+						<span class="bg-danger rounded p-2 text-white" id="notAnswered">0</span><span> Not Answer</span>
 					</div>
 				</div>
 				<div class="row mt-4">
 					<div class="col-md-6">
-						<span class="bg-success rounded p-2 text-white" id="answered">0</span><span> Answere</span>
+						<span class="bg-success rounded p-2 text-white" id="answered">0</span><span> Answer</span>
 					</div>
 					<div class="col-md-6">
 						<span class="bg-marked-review p-2 text-white" id="markForReview">0</span><span> Marked for Review</span>
@@ -153,7 +141,7 @@
 				</div>
 				<div class="row mt-4 mb-5">
 					<div class="col-md-12 m">
-						<span class="bg-answere-marked p-2 text-white" id="ansAndMarked">0</span><span> Answere & Marked for Review (will be considered for evaluation</span>
+						<span class="bg-answere-marked p-2 text-white" id="ansAndMarked">0</span><span> Answer & Marked for Review (will be considered for evaluation)</span>
 					</div>
 				</div>
 				<div class="row">
@@ -164,6 +152,26 @@
 					</div>
 				</div>
 			</div>
+		</div>
+		<div class="row mt-2 ml-4 mr-2">
+			<hr>
+				<div class="col-md-9">
+					<input type="hidden" name="ID" id="ID" value="">
+					<input type="hidden" name="subject" id="subject" value="">
+					<div class="btn-group mr-2" role="group" aria-label="First group" id="Qbuttons">
+					    <button type="button" class="btn btn-success" onclick="buttonOperation('Save')">SAVE & NEXT</button>
+					    <button type="button" class="btn btn-warning" onclick="buttonOperation('MarkForView')">SAVE & MARK FOR VIEW</button>
+					    <button type="button" class="btn btn-dark" onclick="buttonOperation('ClearResponse')">CLEAR RESPONSE</button>
+					    <button type="button" class="btn btn-primary" onclick="buttonOperation('MarkForReview')">MARK FOR REVIEW & NEXT</button>
+				  	</div>
+				  	<div class="btn-group mr-2" role="group" aria-label="First group">
+						<button type="button" class="btn btn-light" onclick="buttonOperation('Back')"><span class="glyphicon glyphicon-backward"></span> BACK</button>
+						<button type="button" class="btn btn-light" onclick="buttonOperation('Next')">NEXT <span class="glyphicon glyphicon-forward"></span></button>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<button type="button" class="btn btn-success pull-right">SUBMIT</button>
+				</div>
 		</div>
 	</div>
 </div>
@@ -186,6 +194,7 @@ $(document).ready(function(){
 });
 function getDataByid(id)
 {
+	
 	var demoTest	=	[];
 	var xhr = new XMLHttpRequest();
     method = 'post',
@@ -195,6 +204,7 @@ function getDataByid(id)
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
         {
             var returnedData= JSON.parse(xhr.responseText);
+            console.log(returnedData);
             if(returnedData != '')
             {
             	showQuestionDetails(returnedData);
@@ -240,7 +250,7 @@ function showQuestionDetails(returnedData)
 	var questionDetails = '';
 	for(var i = 0; i < returnedData.length; i++)            	
 	{
-		questionDetails += '<h3 id="qNO">Question:<span>'+returnedData[i]['q_no']+'</span></h3><hr>';
+		questionDetails += '<h5 id="qNO">Question:<span>'+returnedData[i]['q_no']+'</span></h5><hr>';
 		questionDetails += '<p id="questionTitle">'+returnedData[i]['temp_qtitle']+'</p>';
 		questionDetails += '<input type="radio" name="option" value="1" ';
 		if(returnedData[i]['selected_option'] == 1)
@@ -272,12 +282,14 @@ function getAllquestion(subject,set)
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
         {
             var returnedData= JSON.parse(xhr.responseText);
+            console.log(returnedData);
             if(returnedData != '')
             {
             	var questionText = '';
             	for(var i = 0; i < returnedData.length; i++)            	
         		{
         			var j = i+1
+
         			questionText += '<span class="btn ';
         			if(returnedData[i]['selected_btn'] == 'Save')
         				questionText += 'btn-success';
@@ -287,8 +299,18 @@ function getAllquestion(subject,set)
         				questionText += 'btn-primary';
         			if(returnedData[i]['selected_btn'] == 'NotAnswere')
         				questionText += 'btn-danger';
-        			if(returnedData[i]['selected_btn'] == 'NotVisited')
+        			if(returnedData[i]['q_no'] == 1 && returnedData[i]['selected_btn'] == 'notVisited')
+        			{
+        				questionText += 'btn-danger';
+        			}
+        			else if(returnedData[i]['selected_btn'] == 'notVisited')
+        			{
         				questionText += 'bg-gray';
+        			}
+        			else
+        			{
+
+        			}	
         			questionText += '"style="margin-right: 4px;" onclick="getDataByid('+returnedData[i]['id']+')" id="btnId'+returnedData[i]['id']+'">'+j+'</span>';
         		}
         		$('#totalQuestion').html(questionText);		
