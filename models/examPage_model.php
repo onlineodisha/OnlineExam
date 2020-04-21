@@ -38,7 +38,7 @@ class ExamPage_Model extends Model {
 
 	function getExamDataByParam($param='')
 	{
-		//echo "<pre>";print_r("SELECT * FROM `exam_temp` ".$param."");die;
+		//echo "<pre>";print_r("SELECT * FROM `exam_temp` ".$param."");
 		return $this->db->select("SELECT * FROM `exam_temp` ".$param."");
 	}
 	function getTempExamCoundDataByParam($param='')

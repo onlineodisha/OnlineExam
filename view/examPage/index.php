@@ -204,7 +204,7 @@ function getDataByid(id)
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
         {
             var returnedData= JSON.parse(xhr.responseText);
-            console.log(returnedData);
+            //console.log(returnedData);
             if(returnedData != '')
             {
             	showQuestionDetails(returnedData);
@@ -282,7 +282,7 @@ function getAllquestion(subject,set)
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
         {
             var returnedData= JSON.parse(xhr.responseText);
-            console.log(returnedData);
+            //console.log(returnedData);
             if(returnedData != '')
             {
             	var questionText = '';
@@ -297,7 +297,7 @@ function getAllquestion(subject,set)
         				questionText += 'btn-warning';
         			if(returnedData[i]['selected_btn'] == 'MarkForReview')
         				questionText += 'btn-primary';
-        			if(returnedData[i]['selected_btn'] == 'NotAnswere')
+        			if(returnedData[i]['selected_btn'] == 'NotAnswere' || returnedData[i]['selected_btn'] == 'ClearResponse')
         				questionText += 'btn-danger';
         			if(returnedData[i]['q_no'] == 1 && returnedData[i]['selected_btn'] == 'notVisited')
         			{
@@ -361,6 +361,7 @@ function buttonOperation(btnVal)
 		        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
 		        {
 		            var returnedData= JSON.parse(xhr.responseText);
+		            //console.log(returnedData);
 		            if(returnedData != '')
 		            {
 		            	var subjectName = "'"+returnedData[0]['subject']+"'";
@@ -387,34 +388,76 @@ function updataeBtnInfo(subject,setNo)
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
         {
             var returnedData= JSON.parse(xhr.responseText);
+            console.log(returnedData);
             if(returnedData != '')
             {
+            	var NotVisit = 0;
+            	var NotAnswereVal = 0;
             	var ClearResponseVal = 0;
-        		var NotAnswereVal = 0;
         		var totalNotAnsVal = 0;
+        		var ansValue = 0;
+        		var markForReview = 0;
+        		var markForView = 0;
+
             	for(var i = 0; i < returnedData.length; i++)
             	{
-            		
-	            	if(returnedData[i]['selected_btn'] == 'NotVisited')	
-	            		$('#notVisited').text(returnedData[i]['total'])
+            		var data = returnedData[i];
+            		/*if(data.selected_btn == 'notVisited')
+            		{
+            			console.log("true");
+            		}
+            		else
+            		{
+            			console.log("false");
+            		}*/
+	            	if(data.selected_btn == 'notVisited')
+	            	{
+	            		
+	            		NotVisit = parseInt(returnedData[i]['total']);
+	            		$('#notVisited').text(returnedData[i]['total']);
+	            	}
+	            	
+	            	//console.log(returnedData[i]['selected_btn'] == 'notVisited');
 	            	if(returnedData[i]['selected_btn'] == 'ClearResponse')
-	            		ClearResponseVal = parseInt(returnedData[i]['total']);
-	            	if(returnedData[i]['selected_btn'] == 'NotAnswere')
-	            		NotAnswereVal = parseInt(returnedData[i]['total']);
+	            	{
 
-	            	totalNotAnsVal = ClearResponseVal+NotAnswereVal;	
-	            	$('#notAnswered').text(totalNotAnsVal);
+	            		ClearResponseVal = parseInt(returnedData[i]['total']);
+	            	}
+	            	if(returnedData[i]['selected_btn'] == 'NotAnswere')
+	            	{
+	            		NotAnswereVal = parseInt(returnedData[i]['total']);
+	            	}
+
+	            		totalNotAnsVal = ClearResponseVal+NotAnswereVal;	
+	            		$('#notAnswered').text(totalNotAnsVal);
 	            	/*{
 	            		var notAnsVal 	= 	parseInt($('#notAnswered').text());
 	            		var total  		=	parseInt(returnedData[i]['total'])+notAnsVal;
 	            		$('#notAnswered').text(total);
 	            	}*/
 	            	if(returnedData[i]['selected_btn'] == 'Save')
-	            		$('#answered').text(returnedData[i]['total']);
+	            	{
+	            		ansValue = parseInt(returnedData[i]['total']);
+	            		$('#answered').text(ansValue);
+	            	}
 	            	if(returnedData[i]['selected_btn'] == 'MarkForReview')
-	            		$('#markForReview').text(returnedData[i]['total']);
+	            	{
+	            		markForReview = parseInt(returnedData[i]['total']);
+	            		$('#markForReview').text(markForReview);
+	            	}
+	            	/*else
+	            	{
+	            		$('#markForReview').text(0);
+	            	}*/
 	            	if(returnedData[i]['selected_btn'] == 'MarkForView')
-	            		$('#ansAndMarked').text(returnedData[i]['total']);
+	            	{
+	            		markForView = parseInt(returnedData[i]['total']);
+	            		$('#ansAndMarked').text(markForView);
+	            	}
+	            	/*else
+	            	{
+	            		$('#ansAndMarked').text(0);
+	            	}*/
 	            }
             }  
         }
