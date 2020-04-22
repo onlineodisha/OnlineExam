@@ -93,12 +93,30 @@
 		$param 	= '';
 		if($ID != '')
 		{
+			$param = "WHERE id = ".$ID."";
+			$examDataBySubjectName = $this->model->getExamDataByParam($param);
+
+			if($examDataBySubjectName[0]['selected_btn'] == 'notVisited' || $examDataBySubjectName[0]['selected_btn'] == 'ClearResponse')
+			{
+				$updateTableDate 	=	array('selected_btn' => 'NotAnswere');
+			}
+			else 
+			{
+
+			}
+			$updateExamData = $this->model->updateExamTemp($updateTableDate,$ID);
+			$examData = $this->model->getExamDataByParam($param);
+			echo json_encode($examData);
+		}
+		
+		/*if($ID != '')
+		{
 			$updateTableDate 	=	array('selected_btn' => 'NotAnswere');
 			$updateExamData = $this->model->updateExamTemp($updateTableDate,$ID);
 			$param = "WHERE id = ".$ID."";
 			$examDataBySubjectName = $this->model->getExamDataByParam($param);
 			echo json_encode($examDataBySubjectName);
-		}
+		}*/
 	}
 	function getAllquestion()
 	{
@@ -114,37 +132,240 @@
 		$btnVal		=	isset($_REQUEST['btnVal'])?$_REQUEST['btnVal']:'';
 		$radioVal	=	isset($_REQUEST['option'])?$_REQUEST['option']:'';
 		$subject  	=	isset($_REQUEST['subject'])?$_REQUEST['subject']:'';
+		$nextQuestionID = '';
+		$setNo ='';
+
 		if($ID != '')
 		{
 			$QAdata = '';
-			if($radioVal != 'undefined')
+			$param = "WHERE id = ".$ID."";
+			$examDataByid = $this->model->getExamDataByParam($param);
+			$setNo = $examDataByid[0]['set_no'];
+			if($radioVal != 'undefined') // With Selected Option
 			{
-				if($btnVal == 'ClearResponse')
+				if ($btnVal == 'ClearResponse') // For Clear Response
 				{
-					$btnVal 	= 	'NotAnswere';
-					$radioVal 	= 	0;
+					$QAdata = array(
+						'selected_option' 	=> 	NULL,
+						'selected_btn' 		=>	$btnVal
+						//'status'			=>	0	
+					  );
+					$updateNextQData = $this->model->updateExamTemp($QAdata,$ID);
 				}
-				$QAdata = array(
+				else if($btnVal == 'Save')
+				{
+					$QAdata = array(
 							'selected_option' 	=> 	$radioVal,
 							'selected_btn' 		=>	$btnVal,
 							'status'			=>	0,	
 						  );
-			}else
-			{
-				if($btnVal == 'Save')
-					$btnVal = 'NotAnswere';
-				$QAdata = array(
+					$updateExamData = $this->model->updateExamTemp($QAdata,$ID);
+					//For Getting Next Qno Details
+					if($examDataByid[0]['id'] != '')
+					{
+						$nextQuestionID = $examDataByid[0]['id'] + 1;
+						$param = "WHERE id = ".$nextQuestionID."";
+						$nextQData = $this->model->getExamDataByParam($param);
+						if($nextQData[0]['selected_btn'] == 'notVisited' || $nextQData[0]['selected_btn'] == 'NotAnswere' )
+						{
+							$nextQData = array(
+									'selected_btn' 		=>	'NotAnswere'
+							);
+						}
+						else if($nextQData[0]['selected_btn'] == 'Save')
+						{
+							$nextQData = array(
+									'selected_btn' 		=>	'Save'
+									);
+						}
+						else if($nextQData[0]['selected_btn'] == 'MarkForView')
+						{
+							
+							$nextQData = array(
+									'selected_btn' 		=>	'MarkForView'
+							);
+						}
+						else if($nextQData[0]['selected_btn'] == 'MarkForReview')
+						{
+							$nextQData = array(
+									'selected_btn' 		=>	'MarkForReview'
+							);
+						}
+						else
+						{
+
+						}
+						$updateNextQData = $this->model->updateExamTemp($nextQData,$nextQuestionID);
+					}
+				} // Save End
+				else if($btnVal == 'MarkForView') // Save and Mark for View 
+				{
+					$QAdata = array(
+							'selected_option' 	=> 	$radioVal,
 							'selected_btn' 		=>	$btnVal,
 							'status'			=>	0,	
 						  );
+					$updateExamData = $this->model->updateExamTemp($QAdata,$ID);
+					$nextQuestionID = $examDataByid[0]['id'] + 1;
+					$param = "WHERE id = ".$nextQuestionID."";
+					$nextQData = $this->model->getExamDataByParam($param);
+					if($nextQData[0]['selected_btn'] == 'notVisited' || $nextQData[0]['selected_btn'] == 'NotAnswere' )
+						{
+							$nextQData = array(
+									'selected_btn' 		=>	'NotAnswere'
+							);
+						}
+						else if($nextQData[0]['selected_btn'] == 'Save')
+						{
+							$nextQData = array(
+									'selected_btn' 		=>	'Save'
+									);
+						}
+						else if($nextQData[0]['selected_btn'] == 'MarkForView')
+						{
+							
+							$nextQData = array(
+									'selected_btn' 		=>	'MarkForView'
+							);
+						}
+						else if($nextQData[0]['selected_btn'] == 'MarkForReview')
+						{
+							$nextQData = array(
+									'selected_btn' 		=>	'MarkForReview'
+							);
+						}
+						else
+						{
+
+						}
+						$updateNextQData = $this->model->updateExamTemp($nextQData,$nextQuestionID);
+				}
+				
+
 			}
-			$updateExamData = $this->model->updateExamTemp($QAdata,$ID);
-			if($subject != '')
+			else // Without Select any Option
 			{
-				$param = "WHERE subject= '".$subject."' AND status = 1 ORDER BY id ASC LIMIT 1";
-				$examDataBySubjectName = $this->model->getExamDataByParam($param);
-				echo json_encode($examDataBySubjectName);	
+				if($btnVal == 'Save')
+				{
+					$QAdata = array(
+									'selected_btn' 		=> 'NotAnswere'	
+								  );
+					$updateExamData = $this->model->updateExamTemp($QAdata,$ID);
+					$param = "WHERE id = ".$ID."";
+					$examDataByid = $this->model->getExamDataByParam($param);
+					if($examDataByid[0]['id'] != '')
+					{
+						$nextQuestionID = $examDataByid[0]['id'] + 1;
+						$param = "WHERE id = ".$nextQuestionID."";
+						$nextQData = $this->model->getExamDataByParam($param);
+						if($nextQData[0]['selected_btn'] == 'notVisited' || $nextQData[0]['selected_btn'] == 'NotAnswere' )
+						{
+							$nextQData = array(
+									'selected_btn' 		=>	'NotAnswere',
+							);
+						}
+						else if($nextQData[0]['selected_btn'] == 'Save')
+						{
+							$nextQData = array(
+									'selected_btn' 		=>	'Save'
+									);
+						}
+						/*else if($nextQData[0]['selected_btn'] == 'MarkForView')
+						{
+							$nextQData = array(
+									'selected_btn' 		=>	'Save',
+							$nextQData = array(
+									'selected_btn' 		=>	'MarkForView',
+							);
+						}*/
+						else if($nextQData[0]['selected_btn'] == 'MarkForReview')
+						{
+							$nextQData = array(
+									'selected_btn' 		=>	'NotAnswere'
+							);
+						}
+						else
+						{
+
+						}
+						$updateNextQData = $this->model->updateExamTemp($nextQData,$nextQuestionID);
+					}
+				}// For Save End
+				else if($btnVal == 'ClearResponse')
+				{
+					$QAdata = array(
+						'selected_option' 	=> 	NULL,
+						'selected_btn' 		=>	'NotAnswere'
+						//'status'			=>	0	
+					  );
+					$updateNextQData = $this->model->updateExamTemp($QAdata,$ID);
+				}
+				else if($btnVal == 'MarkForReview')
+				{
+					$QAdata = array(
+						'selected_option' 	=> 	NULL,
+						'selected_btn' 		=>	'MarkForReview'
+						//'status'			=>	0	
+					  );
+					$updateNextQData = $this->model->updateExamTemp($QAdata,$ID);
+					$nextQuestionID = $examDataByid[0]['id'] + 1;
+					$param = "WHERE id = ".$nextQuestionID."";
+					$nextQData = $this->model->getExamDataByParam($param);
+					if($nextQData[0]['selected_btn'] == 'notVisited' || $nextQData[0]['selected_btn'] == 'NotAnswere' )
+						{
+							$nextQData = array(
+									'selected_btn' 		=>	'NotAnswere'
+							);
+						}
+						else if($nextQData[0]['selected_btn'] == 'Save')
+						{
+							$nextQData = array(
+									'selected_btn' 		=>	'Save'
+									);
+						}
+						else if($nextQData[0]['selected_btn'] == 'MarkForView')
+						{
+							
+							$nextQData = array(
+									'selected_btn' 		=>	'MarkForView'
+							);
+						}
+						else if($nextQData[0]['selected_btn'] == 'MarkForReview')
+						{
+							$nextQData = array(
+									'selected_btn' 		=>	'MarkForReview'
+							);
+						}
+						else
+						{
+
+						}
+						$updateNextQData = $this->model->updateExamTemp($nextQData,$nextQuestionID);
+				}
 			}
+		}
+		
+		if($subject != '' && $setNo)
+		{	
+
+			$getAllQues = $this->model->getTotalQuestion($setNo,$subject);
+			$totalQNo 	= count($getAllQues)-1;
+			$lQId = $getAllQues[$totalQNo]['id'];
+			/*echo $lQId; die;*/
+			//echo "$nextQuestionID != '' && $nextQuestionID <= $totalQNo";
+			if($nextQuestionID != '' && $nextQuestionID <= $lQId)
+			{ 
+				$param = "WHERE subject= '".$subject."' AND id= ".$nextQuestionID." ";
+			}							
+			else
+			{
+				$param = "WHERE subject= '".$subject."' AND id= ".$ID." ";
+			}
+			//$param = "WHERE subject= '".$subject."' AND 'status = 1 ORDER BY id ASC LIMIT 1'";
+			//$param = "WHERE subject= '".$subject."' ORDER BY id ASC LIMIT 1";
+			$examDataBySubjectName = $this->model->getExamDataByParam($param);
+			//echo "<pre>"; print_r($examDataBySubjectName);
+			echo json_encode($examDataBySubjectName);	
 		}
 	}
 	function getAllTempExamCountData()
